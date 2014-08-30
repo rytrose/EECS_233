@@ -67,23 +67,23 @@ public class Annotation {
 	 */
 	public static String annotateList(int start, int end){
 		// Annotation object that allows for "FizzBuzz" annotating.
-		Annotation n = new Annotation();
+		Annotation note = new Annotation();
 		// Accounts for the case where start = end
 		if(start == end){
-			n.setn(start);
-			return n.toString();
+			note.setn(start);
+			return note.toString();
 		}
 		// Allows for string building without string concatenation.
 		StringBuilder s = new StringBuilder();
 		// Creates the list, separated by spaces, sans the last entry
 		for(int i = start; i < end; i++){
-			n.setn(i);
-			s.append(n.toString());
+			note.setn(i);
+			s.append(note.toString());
 			s.append(' ');			
 		}
 		// Adds the last entry, without a space after it.
-		n.setn(end);
-		s.append(n.toString());
+		note.setn(end);
+		s.append(note.toString());
 		return s.toString();		
 	}
 }

@@ -53,6 +53,7 @@ public class AnnotationTest {
 	public void testAnnotateList(){
 		assertEquals("Should return the string \"0\"", "0", Annotation.annotateList(0, 0));
 		assertEquals("Should return the string \"0 1 2 Fizz\"", "0 1 2 Fizz", Annotation.annotateList(0, 3));
+		assertEquals("Should return the string \"4 Buzz Fizz 7\"", "4 Buzz Fizz 7", Annotation.annotateList(4, 7));
 		assertEquals("Should return the string \"Buzz 11 Fizz 13 14 FizzBuzz\"", "Buzz 11 Fizz 13 14 FizzBuzz", Annotation.annotateList(10, 15));
 	}
 }
