@@ -34,4 +34,17 @@ public class AnnotationTest {
 	 *
 	 * For help with writing JUnit tests see junit.org
 	 */
+	@Test
+	public void testToString(){
+		Annotation n = new Annotation();
+		assertEquals("Should return the string \"0\"", "0", n.toString());
+		n = new Annotation(2);
+		assertEquals("Should return the string \"2\"", "2", n.toString());
+		n = new Annotation(3);
+		assertEquals("Should return the string \"Fizz\"", "Fizz", n.toString());
+		n = new Annotation(5);
+		assertEquals("Should return the string \"Buzz\"", "Buzz", n.toString());
+		n = new Annotation(15);
+		assertEquals("Should return the string \"FizzBuzz\"", "FizzBuzz", n.toString());
+	}
 }
