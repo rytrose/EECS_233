@@ -22,6 +22,10 @@ public class NumArrayList {
 		size = 0;
 	}
 	
+	public double[] getArray(){
+		return array;
+	}
+	
 	/**
 	 * Returns the size, i.e. number of elements, in the list.
 	 */
@@ -53,9 +57,7 @@ public class NumArrayList {
 		else{
 			array[size] = value;
 			size++;
-		}
-		
-		
+		}		
 	}
 }
 	
