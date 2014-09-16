@@ -87,12 +87,14 @@ public class NumArrayListTest {
      */
     
     @Test
-	public void testAdd() {
+	public void testAddAndCapacity() {
 		NumArrayList test = new NumArrayList();
 		double[] theoretical = new double[10];
 		theoretical[0] = 2;
 		test.add(2);
 		assertArrayEquals(theoretical, test.getArray(), 0.0);
+		assertEquals("Capacitiy is reporting an incorrect value.", 10, test.capacity());
+		
 		double[] theoretical1 = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
 		for(int i = 3; i < 12; i++)
 			test.add(i);
@@ -102,6 +104,7 @@ public class NumArrayListTest {
 		for(int i = 0; i < 11; i++)
 			theoretical2[i] = i + 2;
 		assertArrayEquals(theoretical2, test.getArray(), 0.0);
+		assertEquals("Capacitiy is reporting an incorrect value.", 20, test.capacity());
 	}
 
 }
