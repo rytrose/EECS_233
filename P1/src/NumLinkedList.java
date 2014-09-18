@@ -52,9 +52,9 @@ public class NumLinkedList implements NumList{
 		/**
 		 * Sets the element of this node.
 		 */
-		public void setElement(double value){
+		/* public void setElement(double value){
 			this.element = value;
-		}
+		} */
 	}
 	
 	/**
@@ -144,13 +144,15 @@ public class NumLinkedList implements NumList{
 	 * @param value the value to be added to the list
 	 */
 	public void add(double value){
-		if(size == 0){
+		if(size() == 0){
 			setHead(new DoubleNode(value, null));
 			setTail(getHead());
 			setSize(1);
 		}
 		else{
-			getTail().setNext(new DoubleNode(value, null));
+			DoubleNode adding = new DoubleNode(value, null);
+			getTail().setNext(adding);
+			setTail(adding);
 			setSize(size() + 1);
 		}
 	}
@@ -160,7 +162,9 @@ public class NumLinkedList implements NumList{
 	 * @param otherList the other list to be compared to this list
 	 */
 	public boolean equals(NumList otherList){
-		return true;
+		String thisString = this.toString();
+		String otherString = otherList.toString();
+		return thisString.equals(otherString);
 	}
 	
 	/**
@@ -169,7 +173,19 @@ public class NumLinkedList implements NumList{
 	 * @param value the value to be inserted into the list
 	 */
 	public void insert(int i, double value){
-		
+		DoubleNode ndptr = getHead();
+		if(i >= size()){
+			add(value);
+		}
+		else{
+			for(int index = 0; index < i - 1; index++)
+				ndptr = ndptr.next();
+			DoubleNode save = ndptr.next();
+			DoubleNode adding = new DoubleNode(value, null);
+			ndptr.setNext(adding);
+			ndptr.next().setNext(save);
+			setSize(size() + 1);
+		}
 	}
 	
 	/**
@@ -200,6 +216,20 @@ public class NumLinkedList implements NumList{
 	 * Turns the list contents into a String, separated by spaces.
 	 */
 	public String toString(){
-		return "";
+		if(size() == 0)
+			return "";	
+		else{
+			StringBuilder builder = new StringBuilder();
+			DoubleNode ndptr = getHead();
+			while(ndptr.next() != getTail()){
+				builder.append(ndptr.getElement());
+				builder.append(' ');
+				ndptr = ndptr.next();
+			}
+			builder.append(ndptr.getElement());
+			builder.append(' ');
+			builder.append(ndptr.next().getElement());
+			return builder.toString();
+		}
 	}
 }
