@@ -5,15 +5,124 @@
  */
 public class NumLinkedList implements NumList{
 	/**
-	 * 
+	 * Node class.
 	 */
+	private class DoubleNode{
+		/**
+		 * Stores the value of the node.
+		 */
+		private double element;
+		
+		/**
+		 * Stores the address of the next node in the list.
+		 */
+		private DoubleNode next;
+		
+		/**
+		 * Constructor the requires an element value, and the address of the next node (or null).
+		 * @param element the value of the element to be stored in the node
+		 * @param next the address of the next node (or null)
+		 */
+		public DoubleNode(double element, DoubleNode next){
+			this.element = element;
+			this.next = next;
+		}
+		
+		/**
+		 * Returns the address of the next node.
+		 */
+		public DoubleNode next(){
+			return this.next;
+		}
+		
+		/**
+		 * Sets the next node of this node
+		 */
+		public void setNext(DoubleNode node){
+			next = node;
+		}
+		
+		/**
+		 * Returns the element of this node.
+		 */
+		public double getElement(){
+			return element;
+		}
+		
+		/**
+		 * Sets the element of this node.
+		 */
+		public void setElement(double value){
+			this.element = value;
+		}
+	}
 	
+	/**
+	 * Holds the head of the linked list.
+	 */
+	private DoubleNode head;
+	
+	/**
+	 * Holds the tail of the linked list
+	 */
+	private DoubleNode tail;
+	
+	/**
+	 * Holds the number of elements in the list.
+	 */
+	private int size;
+	
+	/**
+	 * Creates an empty list of size zero.
+	 */
+	public NumLinkedList(){
+		head = null;
+		tail = null;
+		size = 0;
+	}
 	
 	/**
 	 * Returns the size, i.e. number of elements, in the list.
 	 */
 	public int size(){
-		return 0;
+		return size;
+	}
+	
+	/**
+	 * Sets the size, i.e. number of elements in the list.
+	 */
+	public void setSize(int value){
+		size = value;
+	}
+	
+	/**
+	 * Gets the head.
+	 */
+	public DoubleNode getHead(){
+		return head;
+	}
+	
+	/**
+	 * Sets the head.
+	 * @param node the DoubleNode to be made the head
+	 */
+	public void setHead(DoubleNode node){
+		head = node;
+	}
+	
+	/**
+	 * Gets the tail.
+	 */
+	public DoubleNode getTail(){
+		return tail;
+	}
+	
+	/**
+	 * Sets the tail.
+	 * @param node the DoubleNode to be made the tail
+	 */
+	public void setTail(DoubleNode node){
+		tail = node;
 	}
 	
 	/**
@@ -35,7 +144,15 @@ public class NumLinkedList implements NumList{
 	 * @param value the value to be added to the list
 	 */
 	public void add(double value){
-	
+		if(size == 0){
+			setHead(new DoubleNode(value, null));
+			setTail(getHead());
+			setSize(1);
+		}
+		else{
+			getTail().setNext(new DoubleNode(value, null));
+			setSize(size() + 1);
+		}
 	}
 	
 	/**
