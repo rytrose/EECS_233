@@ -106,5 +106,65 @@ public class NumArrayListTest {
 		assertArrayEquals(theoretical2, test.getArray(), 0.0);
 		assertEquals("Capacitiy is reporting an incorrect value.", 20, test.capacity());
 	}
-
+    
+    @Test
+    public void testLookup(){
+    	NumArrayList test = new NumArrayList();
+    	test.add(2);
+    	test.add(3);
+    	test.add(4);
+    	assertEquals("Reports the incorrect value.", 2, test.lookup(0), 0.0);
+    	try{
+    		test.lookup(3);
+    	}
+    	catch(IndexOutOfBoundsException e){}
+    }
+    
+    @Test
+    public void testInsert(){
+    	NumArrayList test = new NumArrayList();
+    	double[] theoretical = new double[10];
+    	for(int i = 0; i < 4; i++)	
+    		theoretical[i] = i + 1;
+    	test.add(1);
+    	test.add(2);
+    	test.add(4);
+    	test.insert(2, 3);
+    	assertArrayEquals(theoretical, test.getArray(), 0.0);
+    	
+    	NumArrayList test1 = new NumArrayList();
+    	double[] theoretical1 = new double[10];
+    	for(int i = 0; i < 4; i++)
+    		theoretical1[i] = i + 1;
+    	test1.add(1);
+    	test1.add(2);
+    	test1.add(3);
+    	test1.insert(4, 4);
+    	assertArrayEquals(theoretical1, test1.getArray(), 0.0);
+    }
+    
+    @Test
+    public void testRemove(){
+    	NumArrayList test = new NumArrayList();
+    	test.add(1);
+    	test.add(2);
+    	test.add(4);
+    	test.add(3);
+    	double[] theoretical = new double[10];
+    	for(int i = 0; i < 3; i++)
+    		theoretical[i] = i + 1;
+    	test.remove(2);
+    	assertArrayEquals(theoretical, test.getArray(), 0.0);
+    }
+    
+    @Test
+    public void testContainsAndParametrizedConstructor(){
+    	NumArrayList test = new NumArrayList(4);
+    	test.add(3);
+    	test.add(6);
+    	test.add(1);
+    	test.add(2.1);
+    	assertEquals("Incorrectly returning that 2.1 is not in the list", true, test.contains(2.1));
+    	assertEquals("Array is the wrong size, i.e. the constructor did not work properly.", 4, test.capacity());
+    }
 }

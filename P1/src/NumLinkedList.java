@@ -5,6 +5,11 @@
  */
 public class NumLinkedList implements NumList{
 	/**
+	 * 
+	 */
+	
+	
+	/**
 	 * Returns the size, i.e. number of elements, in the list.
 	 */
 	public int size(){
