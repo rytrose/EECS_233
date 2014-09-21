@@ -106,4 +106,56 @@ public class NumLinkedListTest {
     	assertTrue("After the insert, test should equal theoretical.", test1.equals(theoretical1));
     }
 
+    @Test
+    public void testRemove(){
+    	NumLinkedList test = new NumLinkedList();
+    	NumLinkedList theoretical = new NumLinkedList();
+    	theoretical.add(1.0);
+    	theoretical.add(3.0);
+    	test.add(1.0);
+    	test.add(2.0);
+    	test.add(3.0);
+    	test.remove(1);
+    	assertTrue("After the insert, test should equal theoretical.", test.equals(theoretical));
+    
+    	NumLinkedList test1 = new NumLinkedList();
+    	NumLinkedList theoretical1 = new NumLinkedList();
+    	test1.add(1.0);
+    	test1.remove(0);
+    	assertTrue("After the insert, test should equal theoretical.", test1.equals(theoretical1));
+
+    	NumLinkedList test2 = new NumLinkedList();
+    	NumLinkedList theoretical2 = new NumLinkedList();
+    	test2.add(1.0);
+    	test2.add(2.0);
+    	test2.add(3.0);
+    	theoretical2.add(1.0);
+    	theoretical2.add(2.0);
+    	test2.remove(2);
+    	assertTrue("After the insert, test should equal theoretical.", test2.equals(theoretical2));
+    }
+    
+    @Test
+    public void testContains(){
+       	NumLinkedList test = new NumLinkedList();
+       	test.add(1.0);
+       	test.add(4.6);
+       	test.add(2.4);
+       	test.add(9.2);
+       	assertTrue("The list should contain 2.4", test.contains(2.4));
+       	assertFalse("The list should not contain \"7.3\".", test.contains(7.3));
+    }
+    
+    @Test
+    public void testLookup(){
+    	NumLinkedList test = new NumLinkedList();
+    	test.add(2);
+    	test.add(3);
+    	test.add(4);
+    	assertEquals("Reports the incorrect value.", 2, test.lookup(0), 0.0);
+    	try{
+    		test.lookup(3);
+    	}
+    	catch(NullPointerException e){}
+    }
 }

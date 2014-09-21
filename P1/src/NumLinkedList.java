@@ -193,7 +193,24 @@ public class NumLinkedList implements NumList{
 	 * @param i index at which the value should be removed
 	 */
 	public void remove(int i){
-		
+		DoubleNode ndptr = getHead();
+		if(i == 0){
+			setSize(size() - 1);
+			setHead(getHead().next());
+		}
+		else if(i < size() - 1){
+			for(int index = 0; index < i - 1; index++)
+				ndptr = ndptr.next();
+			ndptr.setNext(ndptr.next().next());
+			setSize(size() - 1);
+		}
+		else if(i == size() - 1){
+			for(int index = 0; index < i - 1; index++)
+				ndptr = ndptr.next();
+			ndptr.setNext(null);
+			setTail(ndptr);
+			setSize(size() - 1);
+		}
 	}
 	
 	/**
@@ -201,15 +218,30 @@ public class NumLinkedList implements NumList{
 	 * @param value value that is being checked to the list
 	 */
 	public boolean contains(double value){
-		return true;
+		DoubleNode ndptr = getHead();
+		for(int index = 0; index < size(); index++){
+			if(ndptr.getElement() == value)
+				return true;
+			ndptr = ndptr.next();
+		}
+		return false;
 	}
 	
 	/**
 	 * Looks up the value of the list at a specific index.
 	 * @param i index at which the value is being looked up
 	 */
-	public double lookup(int i){
-		return 0.0;
+	public double lookup(int i) throws NullPointerException{
+		DoubleNode ndptr = getHead();
+		for(int index = 0; index < i; index++){
+			try{
+				ndptr = ndptr.next();
+			}
+			catch(IndexOutOfBoundsException e){
+				System.err.println("NullPointerException:" + e.getMessage());
+			}
+		}
+		return ndptr.getElement();
 	}
 	
 	/**

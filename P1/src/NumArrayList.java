@@ -151,7 +151,6 @@ public class NumArrayList implements NumList {
 			for(int index1 = i; index1 < size(); index1++)
 				newArray[index1] = lookup(index1 + 1);
 			setArray(newArray);
-			
 		}
 	}
 	
