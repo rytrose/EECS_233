@@ -42,7 +42,7 @@ public class NumArrayList implements NumList {
 	 * Sets the array of the list.
 	 * @param newArray new array for the list
 	 */
-	public void setArray(double[] newArray){
+	private void setArray(double[] newArray){
 		array = newArray;
 	}
 	
@@ -56,7 +56,7 @@ public class NumArrayList implements NumList {
 	/**
 	 * Sets the size, i.e. number of elements in the list.
 	 */
-	public void setSize(int value){
+	private void setSize(int value){
 		size = value;
 	}
 	

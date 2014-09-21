@@ -91,14 +91,14 @@ public class NumLinkedList implements NumList{
 	/**
 	 * Sets the size, i.e. number of elements in the list.
 	 */
-	public void setSize(int value){
+	private void setSize(int value){
 		size = value;
 	}
 	
 	/**
 	 * Gets the head.
 	 */
-	public DoubleNode getHead(){
+	private DoubleNode getHead(){
 		return head;
 	}
 	
@@ -106,14 +106,14 @@ public class NumLinkedList implements NumList{
 	 * Sets the head.
 	 * @param node the DoubleNode to be made the head
 	 */
-	public void setHead(DoubleNode node){
+	private void setHead(DoubleNode node){
 		head = node;
 	}
 	
 	/**
 	 * Gets the tail.
 	 */
-	public DoubleNode getTail(){
+	private DoubleNode getTail(){
 		return tail;
 	}
 	
@@ -121,7 +121,7 @@ public class NumLinkedList implements NumList{
 	 * Sets the tail.
 	 * @param node the DoubleNode to be made the tail
 	 */
-	public void setTail(DoubleNode node){
+	private void setTail(DoubleNode node){
 		tail = node;
 	}
 	
