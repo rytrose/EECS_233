@@ -64,7 +64,13 @@ public class NumArrayList implements NumList {
 	 * Removes the duplicates of the list, maintaining order, and the first value of each element.
 	 */
 	public void removeDuplicates(){
-		
+		NumArrayList newList = new NumArrayList(capacity());
+		for(int i = 0; i < size(); i++){
+			if(!newList.contains(lookup(i))){
+				newList.add(lookup(i));
+			}
+		}
+		setArray(newList.getArray());
 	}
 	
 	/**

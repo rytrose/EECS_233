@@ -158,4 +158,22 @@ public class NumLinkedListTest {
     	}
     	catch(NullPointerException e){}
     }
+
+    @Test
+    public void testRemoveDuplicates(){
+    	NumLinkedList test = new NumLinkedList();
+    	test.add(1);
+    	test.add(2);
+    	test.add(3);
+    	test.add(1);
+    	test.add(2);
+    	test.add(4);
+    	NumLinkedList theoretical = new NumLinkedList();
+    	theoretical.add(1);
+    	theoretical.add(2);
+    	theoretical.add(3);
+    	theoretical.add(4);
+    	test.removeDuplicates();
+    	assertTrue("After removing duplicates, test should equal theoretical.", test.equals(theoretical));
+    }
 }

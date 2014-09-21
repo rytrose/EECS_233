@@ -167,4 +167,20 @@ public class NumArrayListTest {
     	assertEquals("Incorrectly returning that 2.1 is not in the list", true, test.contains(2.1));
     	assertEquals("Array is the wrong size, i.e. the constructor did not work properly.", 4, test.capacity());
     }
+    
+    @Test
+    public void testRemoveDuplicates(){
+    	NumArrayList test = new NumArrayList();
+    	test.add(1);
+    	test.add(2);
+    	test.add(3);
+    	test.add(1);
+    	test.add(2);
+    	test.add(4);
+    	double[] theoretical = new double[10];
+    	for(int i = 0; i < 4; i++)
+    		theoretical[i] = i + 1;
+    	test.removeDuplicates();
+    	assertArrayEquals(theoretical, test.getArray(), 0.0);    	
+    }
 }

@@ -129,14 +129,18 @@ public class NumLinkedList implements NumList{
 	 * Removes the duplicates of the list, maintaining order, and the first value of each element.
 	 */
 	public void removeDuplicates(){
-		
-	}
-	
-	/**
-	 * Returns the capacity of the array that holds the list.
-	 */
-	public int capacity(){
-		return 0;
+		NumLinkedList newList = new NumLinkedList();
+		DoubleNode ndptr = getHead();
+		for(int i = 0; i < size() - 1; i++){
+			if(!newList.contains(lookup(i)))
+				newList.add(lookup(i));
+			ndptr = ndptr.next();
+		}
+		if(!newList.contains(ndptr.getElement()))
+			newList.add(ndptr.getElement());
+		setHead(newList.getHead());
+		setTail(newList.getTail());
+		setSize(newList.size());
 	}
 	
 	/**
