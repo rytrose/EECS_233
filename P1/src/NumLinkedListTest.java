@@ -86,5 +86,24 @@ public class NumLinkedListTest {
      * When you turn in your draft (and final) we will run our own test suite on your code 
      * and provide you with the feedback.
      */
+    
+    @Test
+    public void testInsert(){
+    	NumLinkedList test = new NumLinkedList();
+    	NumLinkedList theoretical = new NumLinkedList();
+    	theoretical.add(1.0);
+    	theoretical.add(2.0);
+    	theoretical.add(3.0);
+    	test.add(1.0);
+    	test.add(3.0);
+    	test.insert(1, 2.0);
+    	assertTrue("After the insert, test should equal theoretical.", test.equals(theoretical));
+    
+    	NumLinkedList test1 = new NumLinkedList();
+    	NumLinkedList theoretical1 = new NumLinkedList();
+    	theoretical1.add(1.0);
+    	test1.insert(3, 1.0);
+    	assertTrue("After the insert, test should equal theoretical.", test1.equals(theoretical1));
+    }
 
 }

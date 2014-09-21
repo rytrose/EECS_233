@@ -217,9 +217,11 @@ public class NumLinkedList implements NumList{
 	 */
 	public String toString(){
 		if(size() == 0)
-			return "";	
+			return "";
+		else if(size() == 1)
+			return "" + getHead().getElement() + "";
 		else{
-			StringBuilder builder = new StringBuilder();
+			StringBuilder builder =  new StringBuilder();
 			DoubleNode ndptr = getHead();
 			while(ndptr.next() != getTail()){
 				builder.append(ndptr.getElement());
