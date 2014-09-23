@@ -65,12 +65,15 @@ public class NumArrayList implements NumList {
 	 */
 	public void removeDuplicates(){
 		NumArrayList newList = new NumArrayList(capacity());
+		int newSize = 0;
 		for(int i = 0; i < size(); i++){
 			if(!newList.contains(lookup(i))){
 				newList.add(lookup(i));
+				newSize++;
 			}
 		}
 		setArray(newList.getArray());
+		setSize(newSize);
 	}
 	
 	/**
@@ -203,7 +206,6 @@ public class NumArrayList implements NumList {
 			return builder.toString();
 		}	
 	}
-	
 }
 	
 

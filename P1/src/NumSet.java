@@ -95,8 +95,37 @@ public class NumSet{
 	 * @return returns a new set that is the union of S1 and S2
 	 */
 	public static NumSet union(NumSet S1, NumSet S2){
-		return null;
+		double[] array = new double[S1.size() + S2.size()];
+		for(int i = 0; i < S1.size(); i++)
+			array[i] = S1.getList().lookup(i);
+		for(int i = S1.size(); i < (S1.size() + S2.size()); i++)
+			array[i] = S2.getList().lookup(i - S1.size());
+		NumSet set = new NumSet(array);
+		set.getList().removeDuplicates();
+		return set;
+	}
+	
+	/**
+	 * Turns the list contents into a String, separated by spaces.
+	 */
+	public String toString(){
+		return getList().toString();
 	}
 	
 	
+	/**
+	 * Returns true if the given sets are equivalent in their contents.
+	 * @param S1 first set
+	 * @param S2 second set
+	 * @return returns true if the given sets are equivalent
+	 */
+	public static boolean equivalence(NumSet S1, NumSet S2){
+		if(S1.size() != S2.size())
+			return false;
+		for(int i = 0; i < S1.size(); i++){
+			if(!S1.contains(S2.getList().lookup(i)))
+				return false;
+		}
+		return true;
+	}	
 }
