@@ -53,29 +53,50 @@ public class NumSet{
 	 */
 	public static NumSet intersect(NumSet S1, NumSet S2){
 		if(S1.size() > S2.size()){
-			double[] array = {};
-			NumSet set = new NumSet(array);
+			int intersectArraySize = 0;
 			for(int i = 0; i < S2.size(); i++){
 				if(S1.contains(S2.getList().lookup(i))){
-					set.getList().add(S2.getList().lookup(i));
+					intersectArraySize++;
 				}
 			}
-			return set;
+			double[] array = new double[intersectArraySize];
+			int index = 0;
+			for(int i = 0; i < intersectArraySize; i++){
+				if(S1.contains(S2.getList().lookup(i))){
+					array[index] = S2.getList().lookup(i);
+					index++;
+				}
+			}
+			return new NumSet(array);
 		}
 		else{
-			double[] array1 = {};
-			NumSet set1 = new NumSet(array1);
-			for(int i = 0; i < S2.size(); i++){
+			int intersectArraySize = 0;
+			for(int i = 0; i < S1.size(); i++){
 				if(S2.contains(S1.getList().lookup(i))){
-					set1.getList().add(S1.getList().lookup(i));
+					intersectArraySize++;
 				}
 			}
-			return set1;
+			double[] array = new double[intersectArraySize];
+			int index = 0;
+			for(int i = 0; i < intersectArraySize; i++){
+				if(S2.contains(S1.getList().lookup(i))){
+					array[index] = S1.getList().lookup(i);
+					index++;
+				}
+			}
+			return new NumSet(array);
 		}
 	}
 	
-	
-	
+	/**
+	 * Returns a new NumSet that is the union of the given sets.
+	 * @param S1 first set
+	 * @param S2 second set
+	 * @return returns a new set that is the union of S1 and S2
+	 */
+	public static NumSet union(NumSet S1, NumSet S2){
+		return null;
+	}
 	
 	
 }

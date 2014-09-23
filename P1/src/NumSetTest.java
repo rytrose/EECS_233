@@ -24,6 +24,17 @@ public class NumSetTest {
 		assertFalse(set.contains(11));
 	}
 	
-	
+	@Test
+	public void testIntersect(){
+		double[] array = {1, 2, 3, 4, 5, 6};
+		NumSet set = new NumSet(array);
+		double[] array1 = {3, 4, 6, 7, 9};
+		NumSet set1 = new NumSet(array1);
+		NumSet result = NumSet.intersect(set, set1);
+		assertEquals("Incorrectly had too many or too few set elements.", 3, result.size());
+		assertTrue(result.contains(3));
+		assertTrue(result.contains(4));
+		assertTrue(result.contains(6));
+	}
 
 }
