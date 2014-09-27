@@ -178,7 +178,12 @@ public class NumLinkedList implements NumList{
 	 */
 	public void insert(int i, double value){
 		DoubleNode ndptr = getHead();
-		if(i >= size()){
+		if(i == 0){
+			DoubleNode inserting = new DoubleNode(value, getHead());
+			setHead(inserting);
+			setSize(size() + 1);
+		}
+		else if(i >= size()){
 			add(value);
 		}
 		else{

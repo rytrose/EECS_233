@@ -59,6 +59,8 @@ public class NumSet{
 					intersectArraySize++;
 				}
 			}
+			if(intersectArraySize == 0)
+				return null;
 			double[] array = new double[intersectArraySize];
 			int index = 0;
 			for(int i = 0; i < intersectArraySize; i++){
@@ -67,7 +69,8 @@ public class NumSet{
 					index++;
 				}
 			}
-			return new NumSet(array);
+			NumSet intersection = new NumSet(array);
+			return intersection;
 		}
 		else{
 			int intersectArraySize = 0;
@@ -76,6 +79,8 @@ public class NumSet{
 					intersectArraySize++;
 				}
 			}
+			if(intersectArraySize == 0)
+				return null;
 			double[] array = new double[intersectArraySize];
 			int index = 0;
 			for(int i = 0; i < intersectArraySize; i++){
@@ -84,7 +89,8 @@ public class NumSet{
 					index++;
 				}
 			}
-			return new NumSet(array);
+			NumSet intersection = new NumSet(array);
+			return intersection;
 		}
 	}
 	

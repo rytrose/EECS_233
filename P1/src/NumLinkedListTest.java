@@ -104,6 +104,19 @@ public class NumLinkedListTest {
     	theoretical1.add(1.0);
     	test1.insert(3, 1.0);
     	assertTrue("After the insert, test should equal theoretical.", test1.equals(theoretical1));
+    
+    	NumLinkedList test2 = new NumLinkedList();
+    	NumLinkedList theoretical2 = new NumLinkedList();
+    	theoretical2.add(0.0);
+    	theoretical2.add(1.0);
+    	theoretical2.add(2.0);
+    	theoretical2.add(3.0);
+    	test2.add(0.0);
+    	test2.add(1.0);
+    	test2.add(2.0);
+    	test2.add(3.0);
+    	test2.insert(0, 0.0);
+    	assertTrue("After the insert, test should equal theoretical.", test.equals(theoretical));
     }
 
     @Test
