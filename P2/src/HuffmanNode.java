@@ -18,7 +18,7 @@ public class HuffmanNode {
 	public HuffmanNode right;
 	
 	public HuffmanNode(byte b, int c){
-		this.count = count;
+		this.count = c;
 		this.b = b;
 	}
 	
