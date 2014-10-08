@@ -17,6 +17,10 @@ public class ByteCounter {
 		return 0;
 	}
 	
+	public byte[] getElements(){
+		return null;
+	}
+	
 	public int[] getCount(byte[] b){
 		int[] result = {0};
 		return result;

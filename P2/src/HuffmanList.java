@@ -3,7 +3,7 @@
  * EECS 233, Prof. Lewicki
  * @author Ryan Rose
  */
-public class HuffmanList<T> implements Iterable<T>{
+public class HuffmanList{
 
 	public HuffmanList(byte[] b){
 		
@@ -15,9 +15,5 @@ public class HuffmanList<T> implements Iterable<T>{
 	
 	public HuffmanList(byte[] b, int[] array){
 		
-	}
-	
-	public Iterator<T> iterator(){
-		return null;
 	}
 }

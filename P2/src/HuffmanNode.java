@@ -5,19 +5,19 @@
  */
 public class HuffmanNode {
 
-	private byte b;
+	public byte b;
 	
-	private int count;
+	public int count;
 	
-	private boolean[] code;
+	public boolean[] code;
 	
-	private HuffmanNode next;
+	public HuffmanNode next;
 	
-	private HuffmanNode left;
+	public HuffmanNode left;
 	
-	private HuffmanNode right;
+	public HuffmanNode right;
 	
-	public HuffmanNode(int count, byte b){
+	public HuffmanNode(byte b, int c){
 		this.count = count;
 		this.b = b;
 	}
