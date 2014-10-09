@@ -35,6 +35,11 @@ public class ByteCounter {
 		}
 	}
 	
+	/**
+	 * Returns the count of a particular byte in the array.
+	 * @param b the byte to be counted in the array
+	 * @return returns the number of instances of the byte in the array
+	 */
 	public int getCount(byte b){
 		int count = 0;
 		for(int i = 0; i < byteArray.length; i++){
@@ -44,10 +49,16 @@ public class ByteCounter {
 		return count;
 	}
 	
-	
+	/**
+	 * Returns an array of the counts of each byte in a given array.
+	 * @param b
+	 * @return
+	 */
 	public int[] getCount(byte[] b){
-		int[] result = {0};
-		return result;
+		int[] count = new int[b.length];
+		for(int i = 0; i < b.length; i++)
+			count[i] = getCount(b[i]);
+		return count;
 	}
 	
 	public byte[] getElements(){
