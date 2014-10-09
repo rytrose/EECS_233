@@ -1,4 +1,5 @@
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Creates the initial linked list of Huffman Nodes before building the Huffman tree.
@@ -6,9 +7,11 @@ import java.util.Iterator;
  * @author Ryan Rose
  */
 public class HuffmanList<T> implements Iterable<T>{
-
+	
+	private LinkedList<HuffmanNode> list;
+	
 	public HuffmanList(byte[] b){
-		
+
 	}
 	
 	public HuffmanList(String s){

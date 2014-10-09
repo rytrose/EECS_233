@@ -50,9 +50,9 @@ public class ByteCounter {
 	}
 	
 	/**
-	 * Returns an array of the counts of each byte in a given array.
-	 * @param b
-	 * @return
+	 * Returns an int array of the counts of each byte in a given array.
+	 * @param b the byte array to have bytes counted
+	 * @return returns an int array of the count of each byte
 	 */
 	public int[] getCount(byte[] b){
 		int[] count = new int[b.length];
@@ -61,9 +61,20 @@ public class ByteCounter {
 		return count;
 	}
 	
+	
 	public byte[] getElements(){
 		return null;
 	}
+	
+	/*
+	private boolean contains(byte[] array, byte b){
+		for(int i = 0; i < array.length; i++){
+			if(array[i] == b)
+				return true;
+		}
+		return false;
+	}
+	*/
 	
 	public void setOrder(String order){
 		

@@ -20,6 +20,8 @@ public class HuffmanNode {
 	public HuffmanNode(byte b, int c){
 		this.count = c;
 		this.b = b;
+		left = null;
+		right = null;
 	}
 	
 	public int getCount(){
