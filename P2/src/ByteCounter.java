@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Computes the count of each byte in a byte array or file, and stores the result.
@@ -10,29 +11,39 @@ import java.nio.file.Paths;
 public class ByteCounter {
 	
 	/**
-	 * Stores the byte array of bytes to be counted. 
+	 * Stores the bytes to be counted. 
 	 */
-	private byte[] byteArray;
+	private ArrayList<Byte> byteArray;
+	
+	/**
+	 * Stores the count of each byte.
+	 */
+	private ArrayList<Integer> countArray;
 	
 	/**
 	 * Constructor that initializes the byte array with a given array.
 	 * @param b array of bytes to be counted
 	 */
 	public ByteCounter(byte[] b){
-		byteArray = b;
+		for(byte i : b){
+			if(!byteArray.contains(i)){
+				byteArray.add(i);
+				countArray.add(1);
+			}
+			else{
+				Integer value = new Integer(countArray.get(byteArray.indexOf(i)));
+				countArray.set(byteArray.indexOf(i), value++);
+			}	
+		}	
 	}
 	
 	/**
 	 * Constructor that initializes the byte array read from a file whose path string is input.
 	 * @param s path string of the file to be counted
+	 * @throws IOException 
 	 */
-	public ByteCounter(String s){
-		try {
-			byteArray = Files.readAllBytes(Paths.get(s));
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("File does not exist in hierarchy.");
-		}
+	public ByteCounter(String s) throws IOException{
+		this(Files.readAllBytes(Paths.get(s)));
 	}
 	
 	/**
@@ -41,12 +52,7 @@ public class ByteCounter {
 	 * @return returns the number of instances of the byte in the array
 	 */
 	public int getCount(byte b){
-		int count = 0;
-		for(int i = 0; i < byteArray.length; i++){
-			if(byteArray[i] == b)
-				count++;
-		}
-		return count;
+		return 0;
 	}
 	
 	/**
@@ -65,16 +71,6 @@ public class ByteCounter {
 	public byte[] getElements(){
 		return null;
 	}
-	
-	/*
-	private boolean contains(byte[] array, byte b){
-		for(int i = 0; i < array.length; i++){
-			if(array[i] == b)
-				return true;
-		}
-		return false;
-	}
-	*/
 	
 	public void setOrder(String order){
 		
