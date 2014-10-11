@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Computes the count of each byte in a byte array or file, and stores the result.
@@ -76,7 +77,27 @@ public class ByteCounter {
 	}
 	
 	public void setOrder(String order){
-		
+		LinkedList<Byte> newByte = new LinkedList<Byte>();
+		LinkedList<Integer> newCount = new LinkedList<Integer>();
+		if(order == "byte"){
+			newByte.add(byteArray.get(0));
+			newCount.add(countArray.get(0));
+			for(int i = 1; i < byteArray.size(); i++){
+				// travel left while the byte is less than the next byte left
+				int j = i;
+				while(j > 0 && byteArray.get(i).compareTo(byteArray.get(j - 1)) < 0)
+					j--;
+				newByte.add(j, byteArray.get(i));
+				newCount.add(j, countArray.get(i));
+			}
+			byteArray = new ArrayList<Byte>(newByte);
+			countArray = new ArrayList<Integer>(newCount);
+		}
+		if(order == "countInc"){
+			
+		}
+		if(order == "countDec"){
+		}
 	}
 	
 	public String toString(){

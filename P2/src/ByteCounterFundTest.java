@@ -79,11 +79,10 @@ public class  ByteCounterFundTest {
     
     @Test
 	public void testSetOrder() {
-    	byte test [] = {(byte)'a', (byte)'b'};
+    	byte test [] = {(byte)'b', (byte) 'c', (byte)'a', (byte) 'c', (byte) 'b'};
     	ByteCounter byteCount = new ByteCounter(test);
     	byteCount.setOrder("byte");
-    	assertTrue("Method setOrder define the order of the current object",
-			true);
+    	assertEquals("Strings should be equal", "97:1 98:2 99:2" , byteCount.toString());
 	}
     
     @Test
