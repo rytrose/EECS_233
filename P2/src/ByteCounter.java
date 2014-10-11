@@ -125,6 +125,35 @@ public class ByteCounter {
 			countArray = new ArrayList<Integer>(newCount);
 		}
 		if(order == "countDec"){
+			newByte.add(byteArray.get(0));
+			newCount.add(countArray.get(0));
+			for(int i = 1; i < countArray.size(); i++){
+				// travel left while the count is greater than the next count left
+				int j = i;
+				while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) > 0)
+					j--;
+				// if counts are equal, place according to byte order
+				if(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0){
+					while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0)
+						j--;
+					// if this byte is smaller, place to the left
+					if(byteArray.get(i).compareTo(newByte.get(j)) < 0){
+						newCount.add(j, countArray.get(i));
+						newByte.add(j, byteArray.get(i));
+					}
+					// if this byte is bigger, place to the right
+					else{
+						newCount.add(j + 1, countArray.get(i));
+						newByte.add(j + 1, byteArray.get(i));
+					}
+				}
+				else{
+					newCount.add(j, countArray.get(i));
+					newByte.add(j, byteArray.get(i));
+				}
+			}
+			byteArray = new ArrayList<Byte>(newByte);
+			countArray = new ArrayList<Integer>(newCount);
 		}
 	}
 	
