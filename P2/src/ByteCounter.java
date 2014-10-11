@@ -13,12 +13,12 @@ public class ByteCounter {
 	/**
 	 * Stores the bytes to be counted. 
 	 */
-	private ArrayList<Byte> byteArray;
+	private ArrayList<Byte> byteArray = new ArrayList<Byte>();
 	
 	/**
 	 * Stores the count of each byte.
 	 */
-	private ArrayList<Integer> countArray;
+	private ArrayList<Integer> countArray = new ArrayList<Integer>();
 	
 	/**
 	 * Constructor that initializes the byte array with a given array.
@@ -31,8 +31,8 @@ public class ByteCounter {
 				countArray.add(1);
 			}
 			else{
-				Integer value = new Integer(countArray.get(byteArray.indexOf(i)));
-				countArray.set(byteArray.indexOf(i), value++);
+				Integer value = countArray.get(byteArray.indexOf(i));
+				countArray.set(byteArray.indexOf(i), value + 1);
 			}	
 		}	
 	}
@@ -49,10 +49,10 @@ public class ByteCounter {
 	/**
 	 * Returns the count of a particular byte in the array.
 	 * @param b the byte to be counted in the array
-	 * @return returns the number of instances of the byte in the array
+	 * @return returns the number of instances of the byte in the array, or -1 if the byte does not occur
 	 */
 	public int getCount(byte b){
-		return 0;
+		return countArray.get(byteArray.indexOf(b));
 	}
 	
 	/**
@@ -69,7 +69,10 @@ public class ByteCounter {
 	
 	
 	public byte[] getElements(){
-		return null;
+		byte[] array = new byte[byteArray.size()];
+		for(int i = 0; i < byteArray.size(); i++)
+			array[i] = byteArray.get(i).byteValue();
+		return array;
 	}
 	
 	public void setOrder(String order){
@@ -77,7 +80,17 @@ public class ByteCounter {
 	}
 	
 	public String toString(){
-		return "";
+		StringBuilder builder = new StringBuilder();
+		for(int i = 0; i < byteArray.size() - 1; i++){
+			builder.append(byteArray.get(i).intValue());
+			builder.append(':');
+			builder.append(countArray.get(i));
+			builder.append(' ');
+		}
+		builder.append(byteArray.get(byteArray.size() - 1).intValue());
+		builder.append(':');
+		builder.append(countArray.get(byteArray.size() - 1));
+		return builder.toString();
 	}
 	
 	public String toString(String format){
