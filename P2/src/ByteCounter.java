@@ -21,6 +21,10 @@ public class ByteCounter {
 	 */
 	private ArrayList<Integer> countArray = new ArrayList<Integer>();
 	
+	private int size = 0;
+	
+	private String order = "default";
+	
 	/**
 	 * Constructor that initializes the byte array with a given array.
 	 * @param b array of bytes to be counted
@@ -35,7 +39,8 @@ public class ByteCounter {
 				Integer value = countArray.get(byteArray.indexOf(i));
 				countArray.set(byteArray.indexOf(i), value + 1);
 			}	
-		}	
+		}
+		size = byteArray.size();
 	}
 	
 	/**
@@ -70,9 +75,12 @@ public class ByteCounter {
 	
 	
 	public byte[] getElements(){
+		String saveOrder = order;
 		byte[] array = new byte[byteArray.size()];
+		setOrder("byte");
 		for(int i = 0; i < byteArray.size(); i++)
 			array[i] = byteArray.get(i).byteValue();
+		order = saveOrder;
 		return array;
 	}
 	
@@ -80,6 +88,7 @@ public class ByteCounter {
 		LinkedList<Byte> newByte = new LinkedList<Byte>();
 		LinkedList<Integer> newCount = new LinkedList<Integer>();
 		if(order == "byte"){
+			this.order = "byte";
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
 			for(int i = 1; i < byteArray.size(); i++){
@@ -94,6 +103,7 @@ public class ByteCounter {
 			countArray = new ArrayList<Integer>(newCount);
 		}
 		if(order == "countInc"){
+			this.order = "countInc";
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
 			for(int i = 1; i < countArray.size(); i++){
@@ -125,6 +135,7 @@ public class ByteCounter {
 			countArray = new ArrayList<Integer>(newCount);
 		}
 		if(order == "countDec"){
+			this.order = "countDec";
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
 			for(int i = 1; i < countArray.size(); i++){
@@ -188,5 +199,17 @@ public class ByteCounter {
 		}
 		else
 			return toString();
-	}	
+	}
+	
+	public byte getByte(int i){
+		return byteArray.get(i).byteValue();
+	}
+	
+	public int getCount(int i){
+		return countArray.get(i);
+	}
+	
+	public int getSize(){
+		return size;
+	}
 }

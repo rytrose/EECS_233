@@ -57,7 +57,7 @@ public class  ByteCounterFundTest {
        	ByteCounter byteCount = new ByteCounter(test); 
     	byte elements [] = byteCount.getElements();
         assertArrayEquals("get Elements method should return an array of byte " + 
-            " that has a non-zero count", new byte[]{(byte)'h', (byte)'e', (byte)'l',(byte)'o'},elements);
+            " that has a non-zero count", new byte[]{(byte)'e', (byte)'h', (byte)'l',(byte)'o'},elements);
         assertEquals("get Elements method should return an array of byte " + 
             " that has a non-zero count", 4,elements.length);
     }
