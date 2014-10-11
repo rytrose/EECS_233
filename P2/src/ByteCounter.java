@@ -172,6 +172,21 @@ public class ByteCounter {
 	}
 	
 	public String toString(String format){
-		return "";
+		if(format == "char"){
+			StringBuilder builder = new StringBuilder();
+			for(int i = 0; i < byteArray.size() - 1; i++){
+				builder.append((char)(byteArray.get(i).byteValue()));
+				builder.append(':');
+				builder.append(countArray.get(i));
+				builder.append(' ');
+			}
+
+			builder.append((char)(byteArray.get(byteArray.size() - 1).byteValue()));
+			builder.append(':');
+			builder.append(countArray.get(byteArray.size() - 1));
+			return builder.toString();
+		}
+		else
+			return toString();
 	}	
 }

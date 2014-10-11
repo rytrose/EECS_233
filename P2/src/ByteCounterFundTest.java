@@ -99,8 +99,11 @@ public class  ByteCounterFundTest {
 	public void testFormatToString() {
     	byte test [] = {(byte)'a', (byte)'b'};
     	ByteCounter byteCount = new ByteCounter(test);
-    	byteCount.toString("byte");
-    	assertTrue("Method toString returns the bytes and their counts based on the format provided",
-			true);
-	}
+    	assertEquals("Strings should be equal", "97:1 98:1" , byteCount.toString("byte"));
+    	assertEquals("Strings should be equal", "a:1 b:1" , byteCount.toString("char"));
+    	byte test1 [] = {(byte)'b', (byte)'t', (byte)'m', (byte)'m', (byte)'y', (byte)'y'};
+    	ByteCounter byteCount1 = new ByteCounter(test1);
+    	assertEquals("Strings should be equal", "98:1 116:1 109:2 121:2" , byteCount1.toString("byte"));
+    	assertEquals("Strings should be equal", "b:1 t:1 m:2 y:2" , byteCount1.toString("char"));
+    }
 }
