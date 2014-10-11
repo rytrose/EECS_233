@@ -83,7 +83,13 @@ public class  ByteCounterFundTest {
     	ByteCounter byteCount = new ByteCounter(test);
     	byteCount.setOrder("byte");
     	assertEquals("Strings should be equal", "97:1 98:2 99:2" , byteCount.toString());
-	}
+    	byteCount.setOrder("countInc");
+    	assertEquals("Strings should be equal", "97:1 98:2 99:2" , byteCount.toString());
+    	byte test1 [] = {(byte)'e', (byte) 'd', (byte)'a', (byte) 'd', (byte) 'b'};
+    	ByteCounter byteCount1 = new ByteCounter(test1);
+    	byteCount1.setOrder("countInc");
+    	assertEquals("Strings should be equal", "97:1 98:1 101:1 100:2" , byteCount1.toString());
+    }
     
     @Test
 	public void testFormatToString() {
