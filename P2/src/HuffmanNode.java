@@ -11,8 +11,6 @@ public class HuffmanNode {
 	
 	public boolean[] code;
 	
-	public HuffmanNode next;
-	
 	public HuffmanNode left;
 	
 	public HuffmanNode right;

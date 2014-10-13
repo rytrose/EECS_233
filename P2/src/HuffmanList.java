@@ -1,4 +1,6 @@
-import java.util.Iterator;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
 /**
@@ -6,37 +8,23 @@ import java.util.LinkedList;
  * EECS 233, Prof. Lewicki
  * @author Ryan Rose
  */
-public class HuffmanList<T> implements Iterable<T>{
-	
-	private LinkedList<HuffmanNode> list;
-	
-	public HuffmanList(byte[] b){
+public class HuffmanList extends LinkedList<HuffmanNode>{
 
+	public HuffmanList(byte[] b){
+		ByteCounter counter = new ByteCounter(b);
+		counter.setOrder("countInc");
+		for(int i = 0; i < counter.getSize(); i++)
+			add(new HuffmanNode(counter.getByteAt(i), counter.getCountAt(i)));
 	}
 	
-	public HuffmanList(String s){
-		
+	public HuffmanList(String s) throws IOException{
+		ByteCounter counter = new ByteCounter(s);
+		counter.setOrder("countInc");
+		for(int i = 0; i < counter.getSize(); i++)
+			add(new HuffmanNode(counter.getByteAt(i), counter.getCountAt(i)));
 	}
 	
 	public HuffmanList(byte[] b, int[] array){
 		
-	}
-	
-	public Iterator<T> iterator(){
-		return new Iterator<T>(){
-			
-			public boolean hasNext(){
-				return true;
-			}
-			
-			public T next(){
-				return null;
-			}
-			
-			public void remove(){
-				
-			}
-			
-		};
 	}
 }

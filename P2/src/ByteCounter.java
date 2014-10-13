@@ -111,21 +111,26 @@ public class ByteCounter {
 				int j = i;
 				while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) < 0)
 					j--;
+				// post condition: (j - 1) is the index of a count less than or equal to this count and all counts at and to the right of j are greater
+				
 				// if counts are equal, place according to byte order
 				if(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0){
-					while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0)
-						j--;
-					// if this byte is smaller, place to the left
-					if(byteArray.get(i).compareTo(newByte.get(j)) < 0){
+					// if this byte is greater, place to the right of (j - l)
+					if(byteArray.get(i).compareTo(newByte.get(j - 1)) > 0){
 						newCount.add(j, countArray.get(i));
 						newByte.add(j, byteArray.get(i));
 					}
-					// if this byte is bigger, place to the right
+					// if this byte is smaller
 					else{
-						newCount.add(j + 1, countArray.get(i));
-						newByte.add(j + 1, byteArray.get(i));
+						// move until there's no more bytes smaller, then add at j
+						while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0 && byteArray.get(i).compareTo(newByte.get(j - 1)) < 0)
+							j--;
+						// post condition: j - 1 is not equal in count, or this byte is greater than j - 1 
+						newCount.add(j, countArray.get(i));
+						newByte.add(j, byteArray.get(i));
 					}
 				}
+				// if counts are not equal, place at index j
 				else{
 					newCount.add(j, countArray.get(i));
 					newByte.add(j, byteArray.get(i));
@@ -139,25 +144,31 @@ public class ByteCounter {
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
 			for(int i = 1; i < countArray.size(); i++){
-				// travel left while the count is greater than the next count left
+				// new index to traverse list
 				int j = i;
+				// travel left while the count is less than the next count left
 				while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) > 0)
 					j--;
+				// post condition: (j - 1) is the index of a count greater than or equal to this count and all counts at and to the right of j are less
+				
 				// if counts are equal, place according to byte order
 				if(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0){
-					while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0)
-						j--;
-					// if this byte is smaller, place to the left
-					if(byteArray.get(i).compareTo(newByte.get(j)) < 0){
+					// if this byte is greater, place to the right of (j - l)
+					if(byteArray.get(i).compareTo(newByte.get(j - 1)) > 0){
 						newCount.add(j, countArray.get(i));
 						newByte.add(j, byteArray.get(i));
 					}
-					// if this byte is bigger, place to the right
+					// if this byte is smaller
 					else{
-						newCount.add(j + 1, countArray.get(i));
-						newByte.add(j + 1, byteArray.get(i));
+						// move until there's no more bytes smaller, then add at j
+						while(j > 0 && countArray.get(i).compareTo(newCount.get(j - 1)) == 0 && byteArray.get(i).compareTo(newByte.get(j - 1)) < 0)
+							j--;
+						// post condition: j - 1 is not equal in count, or this byte is greater than j - 1 
+						newCount.add(j, countArray.get(i));
+						newByte.add(j, byteArray.get(i));
 					}
 				}
+				// if counts are not equal, place at index j
 				else{
 					newCount.add(j, countArray.get(i));
 					newByte.add(j, byteArray.get(i));
@@ -201,11 +212,11 @@ public class ByteCounter {
 			return toString();
 	}
 	
-	public byte getByte(int i){
+	public byte getByteAt(int i){
 		return byteArray.get(i).byteValue();
 	}
 	
-	public int getCount(int i){
+	public int getCountAt(int i){
 		return countArray.get(i);
 	}
 	

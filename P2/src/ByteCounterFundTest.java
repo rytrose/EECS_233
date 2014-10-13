@@ -78,7 +78,7 @@ public class  ByteCounterFundTest {
      */
     
     @Test
-	public void testSetOrder() {
+	public void testSetOrder() throws IOException {
     	byte test [] = {(byte)'b', (byte) 'c', (byte)'a', (byte) 'c', (byte) 'b'};
     	ByteCounter byteCount = new ByteCounter(test);
     	byteCount.setOrder("byte");
@@ -93,6 +93,10 @@ public class  ByteCounterFundTest {
     	ByteCounter byteCount2 = new ByteCounter(test2);
     	byteCount2.setOrder("countDec");
     	assertEquals("Strings should be equal", "100:2 97:1 98:1 101:1" , byteCount2.toString());
+    	
+    	ByteCounter byteCount3 = new ByteCounter("file.txt");
+    	byteCount3.setOrder("countInc");
+    	assertEquals("Strings should be equal", "32:1 100:1 101:1 104:1 114:1 119:1 111:2 108:3" , byteCount3.toString());
     }
     
     @Test
