@@ -93,8 +93,28 @@ public class HuffmanListFundTest {
      */
 	
 	@Test
-	public void testByteAndIntegerArrayConstructor() {
-		HuffmanList list = new HuffmanList(new byte[]{(byte)'a',(byte)'b'},
-				new int[]{1,2});
+	public void testByteAndIntegerArrayConstructor() throws Exception {
+		char[] charList = new char[]{'c', 'f', 'g', 'h', 'k'};
+		int[] countList = new int[]{1, 1, 1, 1, 2};
+		
+		byte[] byteList = new byte[]{(byte) 'g', (byte) 'c', (byte) 'k', (byte) 'h', (byte) 'f'};
+		int[] intList = new int[]{1, 1, 2, 1, 1};
+		
+		HuffmanList list = new HuffmanList(byteList, intList);
+		
+		HuffmanNode hNode;
+		Iterator<HuffmanNode> iter = list.iterator();
+		for (int i = 0; i < 5; i++) {
+			assertTrue("Should create a list length 5. " +
+					"However, your list only has " + i + " elements", iter.hasNext());
+			hNode = iter.next();
+			assertEquals("The #" + (i+1) + " element in the HuffmanList, " 
+					+ "should be character '" + charList[i] + "'.", (byte)charList[i], hNode.b);
+			assertEquals("The count of #" + (i+1) + " element, '" + (byte)charList[i] + "'," 
+					+ " in the HuffmanList, should be " 
+					+ countList[i] + ".", countList[i], hNode.count);
+		}
+		assertFalse("HuffmanList should create a list length 5. " +
+				"However, your list has the 6-th element.", iter.hasNext());
 	}
 }

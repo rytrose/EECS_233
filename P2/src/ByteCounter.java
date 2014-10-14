@@ -21,8 +21,14 @@ public class ByteCounter {
 	 */
 	private ArrayList<Integer> countArray = new ArrayList<Integer>();
 	
+	/**
+	 * Stores the size of the ByteCounter.
+	 */
 	private int size = 0;
 	
+	/**
+	 * Keeps track of the current order of the ByteCounter.
+	 */
 	private String order = "default";
 	
 	/**
@@ -73,7 +79,10 @@ public class ByteCounter {
 		return count;
 	}
 	
-	
+	/**
+	 * Returns the elements, in byte order, of the ByteCounter.
+	 * @return returns a byte array of the elements in this object
+	 */
 	public byte[] getElements(){
 		String saveOrder = order;
 		byte[] array = new byte[byteArray.size()];
@@ -83,7 +92,11 @@ public class ByteCounter {
 		order = saveOrder;
 		return array;
 	}
-	
+	/**
+	 * Sets the order of the elements to either: "byte" - increasing byte order, "countInc" - increasing count order,
+	 * or "countDec" - decreasing count order
+	 * @param order String name of the desired order
+	 */
 	public void setOrder(String order){
 		LinkedList<Byte> newByte = new LinkedList<Byte>();
 		LinkedList<Integer> newCount = new LinkedList<Integer>();
@@ -179,6 +192,9 @@ public class ByteCounter {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
 		for(int i = 0; i < byteArray.size() - 1; i++){
