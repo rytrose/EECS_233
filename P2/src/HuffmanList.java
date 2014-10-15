@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.lang.reflect.Field;
 
@@ -11,6 +8,7 @@ import java.lang.reflect.Field;
  * EECS 233, Prof. Lewicki
  * @author Ryan Rose
  */
+@SuppressWarnings("serial")
 public class HuffmanList extends LinkedList<HuffmanNode>{
 
 	public HuffmanList(byte[] b){
@@ -41,7 +39,7 @@ public class HuffmanList extends LinkedList<HuffmanNode>{
 		ArrayList<Integer> newCounts = new ArrayList<Integer>();
 		for(int i = 0; i < array.length; i++)
 			newCounts.add(array[i]);		
-		Class byteCounter = ByteCounter.class;
+		Class<ByteCounter> byteCounter = ByteCounter.class;
 		Field f = byteCounter.getDeclaredField("byteArray");
 		f.setAccessible(true);
 		f.set(test, newBytes);

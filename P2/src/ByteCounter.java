@@ -115,7 +115,7 @@ public class ByteCounter {
 			byteArray = new ArrayList<Byte>(newByte);
 			countArray = new ArrayList<Integer>(newCount);
 		}
-		if(order == "countInc"){
+		else if(order == "countInc"){
 			this.order = "countInc";
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
@@ -152,7 +152,7 @@ public class ByteCounter {
 			byteArray = new ArrayList<Byte>(newByte);
 			countArray = new ArrayList<Integer>(newCount);
 		}
-		if(order == "countDec"){
+		else if(order == "countDec"){
 			this.order = "countDec";
 			newByte.add(byteArray.get(0));
 			newCount.add(countArray.get(0));
@@ -190,6 +190,8 @@ public class ByteCounter {
 			byteArray = new ArrayList<Byte>(newByte);
 			countArray = new ArrayList<Integer>(newCount);
 		}
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	/**
