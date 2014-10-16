@@ -195,7 +195,8 @@ public class ByteCounter {
 	}
 	
 	/**
-	 * 
+	 * Returns a String with the integer value of the byte, and its related count.
+	 * @return returns the String representation of the bytes and their related counts
 	 */
 	public String toString(){
 		StringBuilder builder = new StringBuilder();
@@ -211,6 +212,11 @@ public class ByteCounter {
 		return builder.toString();
 	}
 	
+	/**
+	 * Returns a String with the integer value of the byte, and its related count, in a specified format.
+	 * @param format if the parameter is "char", the byte will be represented as an ASCII character
+	 * @return returns the String representation of the bytes and their related counts
+	 */
 	public String toString(String format){
 		if(format == "char"){
 			StringBuilder builder = new StringBuilder();
@@ -230,14 +236,27 @@ public class ByteCounter {
 			return toString();
 	}
 	
+	/**
+	 * Returns the byte at a particular index.
+	 * @param i index at which to retrieve the byte
+	 * @return returns the byte at a particular index
+	 */
 	public byte getByteAt(int i){
 		return byteArray.get(i).byteValue();
 	}
 	
+	/**
+	 * Returns the count at a particular index.
+	 * @param i index at which to retrieve the count
+	 * @return returns the count at a particular index
+	 */
 	public int getCountAt(int i){
 		return countArray.get(i);
 	}
-	
+	/**
+	 * Returns the size of the ByteCounter.
+	 * @return returns the size of the ByteCounter
+	 */
 	public int getSize(){
 		return size;
 	}

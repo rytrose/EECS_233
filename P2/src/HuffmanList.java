@@ -10,7 +10,11 @@ import java.lang.reflect.Field;
  */
 @SuppressWarnings("serial")
 public class HuffmanList extends LinkedList<HuffmanNode>{
-
+	
+	/**
+	 * Constructor that builds a HuffmanList from an array of bytes.
+	 * @param b array of bytes from which to build the HuffmanList 
+	 */
 	public HuffmanList(byte[] b){
 		ByteCounter counter = new ByteCounter(b);
 		counter.setOrder("countInc");
@@ -18,6 +22,11 @@ public class HuffmanList extends LinkedList<HuffmanNode>{
 			add(new HuffmanNode(counter.getByteAt(i), counter.getCountAt(i)));
 	}
 	
+	/**
+	 * Constructor that builds a HuffmanList from a file, whose file name is given via a String.
+	 * @param s
+	 * @throws IOException
+	 */
 	public HuffmanList(String s) throws IOException{
 		ByteCounter counter = new ByteCounter(s);
 		counter.setOrder("countInc");

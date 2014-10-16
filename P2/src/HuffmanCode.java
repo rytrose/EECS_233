@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 /**
  * Creates the tree and Huffman code.
@@ -65,7 +66,7 @@ public class HuffmanCode {
 		HuffmanNode smallest = null;
 		HuffmanNode second = null;
 		smallest = list.get(0);
-		if(list.get(1).count > list.get(0).count)
+		if(list.size() > 1 && list.get(1).count > list.get(0).count)
 			second = list.get(1);
 		else{
 			second = smallest;
