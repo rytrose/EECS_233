@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 /**
  * Creates the tree and Huffman code.
@@ -13,7 +12,7 @@ public class HuffmanCode {
 	/**
 	 * Stores the original HuffmanList.
 	 */
-	private HuffmanList originalList;
+	public HuffmanList originalList;
 	
 	/**
 	 * Stores the HuffmanList that has been formed into a tree.
@@ -28,6 +27,21 @@ public class HuffmanCode {
 		HuffmanList list = new HuffmanList(b);
 		originalList = list;
 		while(list.size() > 1){
+			HuffmanNode lowest1 = list.remove(0);
+			HuffmanNode lowest2 = list.remove(0);
+			HuffmanNode newNode = new HuffmanNode((byte) 0, lowest1.count + lowest2.count);
+			newNode.left = lowest1;
+			newNode.right = lowest2;
+			for(int i = 0; i < list.size(); i++){
+				if(list.get(i).count > newNode.count)
+					list.add(i, newNode);
+					break;
+			}
+		}
+		tree = list;
+		traverseAndBuild(tree.getFirst(), null);	
+	}
+		/* while(list.size() > 1){
 			HuffmanNode[] lowestTwo = lowestTwo(list);
 			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
 			newNode.left = lowestTwo[0];
@@ -35,9 +49,10 @@ public class HuffmanCode {
 			list.add(newNode);
 			list.remove(lowestTwo[0]);
 			list.remove(lowestTwo[1]);
+		/*
 		}
 		tree = list;
-		traverseAndBuild(tree.element());
+		traverseAndBuild(tree.getFirst(), null);
 	}
 	
 	/**
@@ -62,16 +77,18 @@ public class HuffmanCode {
 		HuffmanList list = new HuffmanList(b, array);
 		originalList = list;
 		while(list.size() > 1){
-			HuffmanNode[] lowestTwo = lowestTwo(list);
-			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
-			newNode.left = lowestTwo[0];
-			newNode.right = lowestTwo[1];
-			list.add(newNode);
-			list.remove(lowestTwo[0]);
-			list.remove(lowestTwo[1]);
+			HuffmanNode lowest1 = list.remove(0);
+			HuffmanNode lowest2 = list.remove(0);
+			HuffmanNode newNode = new HuffmanNode((byte) 0, lowest1.count + lowest2.count);
+			newNode.left = lowest1;
+			newNode.right = lowest2;
+			for(int i = 0; i < list.size(); i++){
+				if(list.get(i).count > newNode.count)
+					list.add(i, newNode);
+			}
 		}
 		tree = list;
-		traverseAndBuild(tree.element());
+		traverseAndBuild(tree.getFirst(), null);
 	}
 	
 	public boolean[] code(byte b){
@@ -148,24 +165,37 @@ public class HuffmanCode {
 	 * Traverses the tree and builds code for the nodes.
 	 * @param root HuffmanNode that serves as the root for the traversal.
 	 */
-	private void traverseAndBuild(HuffmanNode root){
-		ArrayList<Boolean> code = new ArrayList<Boolean>();
+	private void traverseAndBuild(HuffmanNode root, boolean[] prevCode){
 		if(root.left != null){
-			code.add(false);
-			traverseAndBuild(root.left);
+			boolean[] newArray = addToArray(prevCode, false);
+			traverseAndBuild(root.left, newArray);
 		}
 		if(root.right != null){
-			code.add(true);
-			traverseAndBuild(root.right);
+			boolean[] newArray = addToArray(prevCode, true);
+			traverseAndBuild(root.right, newArray);
 		}
 		if(root.left == null && root.right == null){
-			boolean[] encoded = new boolean[code.size()];
-			for(int i = 0; i < encoded.length; i ++){
-				encoded[i] = code.get(i).booleanValue();
-			}
-			root.code = encoded;
+			root.code = prevCode;
 		}
 	}
+	
+	/**
+	 * Copies and adds to an array.
+	 */
+	private boolean[] addToArray(boolean[] array, boolean add){
+		if(array == null){
+			boolean[] newArray = new boolean[] {add};
+			return newArray;
+		}
+		else{
+		boolean[] newArray = new boolean[array.length + 1];
+		for(int i = 0; i < array.length; i++)
+			newArray[i] = array[i];
+		newArray[array.length] = add;
+		return newArray;
+		}
+	}
+	
 	
 	/**
 	 * Traverses the string until it finds a node with a given byte.
@@ -174,12 +204,12 @@ public class HuffmanCode {
 	 * @return the HuffmanNode containing the byte desired
 	 */
 	private HuffmanNode traverseAndSearch(HuffmanNode root, byte b){
-		if(root.b == b)
-			return root;
 		if(root.left != null)
 			return traverseAndSearch(root.left, b);
 		if(root.right != null)
 			return traverseAndSearch(root.right, b);
+		if(root.b == b)
+			return root;
 		return null;
 	}
 }
