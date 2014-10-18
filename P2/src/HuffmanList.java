@@ -34,13 +34,21 @@ public class HuffmanList extends LinkedList<HuffmanNode>{
 			add(new HuffmanNode(counter.getByteAt(i), counter.getCountAt(i)));
 	}
 	
-	public HuffmanList(byte[] b, int[] array) throws Exception{
+	/**
+	 * Constructor that builds a HuffmanList from a byte[] of bytes and an int[] of the byte's respective counts.
+	 * @param b byte array of bytes to be in the HuffmanList
+	 * @param array int array of the byte's respective counts
+	 * @throws SecurityException 
+	 * @throws NoSuchFieldException 
+	 * @throws IllegalAccessException 
+	 */
+	public HuffmanList(byte[] b, int[] array) throws IllegalArgumentException, NoSuchFieldException, SecurityException, IllegalAccessException{
 		ByteCounter test = new ByteCounter(b);
 		if(test.getSize() != b.length)
-			throw new Exception();
+			throw new IllegalArgumentException();
 		for(int i = 0; i < array.length; i++){
 			if(array[i] < 1)
-				throw new Exception();
+				throw new IllegalArgumentException();
 		}
 		ArrayList<Byte> newBytes = new ArrayList<Byte>();
 		for(int i = 0; i < b.length; i++)

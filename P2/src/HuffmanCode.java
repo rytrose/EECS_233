@@ -10,10 +10,23 @@ import java.util.ArrayList;
  */
 public class HuffmanCode {
 	
+	/**
+	 * Stores the original HuffmanList.
+	 */
+	private HuffmanList originalList;
+	
+	/**
+	 * Stores the HuffmanList that has been formed into a tree.
+	 */
 	private HuffmanList tree;
 	
+	/**
+	 * Creates a Huffman tree given an array of bytes.
+	 * @param b array of bytes to make the Huffman tree
+	 */
 	public HuffmanCode(byte[] b){
 		HuffmanList list = new HuffmanList(b);
+		originalList = list;
 		while(list.size() > 1){
 			HuffmanNode[] lowestTwo = lowestTwo(list);
 			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
@@ -24,15 +37,30 @@ public class HuffmanCode {
 			list.add(newNode);
 		}
 		tree = list;
+		traverseAndBuild(tree.getFirst());
 	}
 	
-	
+	/**
+	 * Creates a Huffman tree given a String that is an address of a text file.
+	 * @param s a location of a file from which to make the Huffman tree
+	 * @throws IOException
+	 */
 	public HuffmanCode(String s) throws IOException{
 		this(Files.readAllBytes(Paths.get(s)));
 	}
 	
-	public HuffmanCode(byte[] b, int[] array) throws Exception{
+	/**
+	 * Creates a Huffman tree from an array of bytes, and an array of the bytes' respective counts.
+	 * @param b byte array 
+	 * @param array array of respective counts for each byte
+	 * @throws IllegalArgumentException
+	 * @throws NoSuchFieldException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 */
+	public HuffmanCode(byte[] b, int[] array) throws IllegalArgumentException, NoSuchFieldException, SecurityException, IllegalAccessException{
 		HuffmanList list = new HuffmanList(b, array);
+		originalList = list;
 		while(list.size() > 1){
 			HuffmanNode[] lowestTwo = lowestTwo(list);
 			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
@@ -46,15 +74,37 @@ public class HuffmanCode {
 	}
 	
 	public boolean[] code(byte b){
-		return null;
+		if(traverseAndSearch(tree.getFirst(), b) == null)
+			throw new IllegalArgumentException();
+		return traverseAndSearch(tree.getFirst(), b).code;
 	}
 	
 	public String codeString(byte b){
-		return "";
+		boolean[] code = code(b);
+		StringBuilder builder = new StringBuilder();
+		for(int i = 0; i < code.length ; i++){
+			if(code[i] = true)
+				builder.append(1);
+			else
+				builder.append(0);
+		}
+		return builder.toString();
 	}
 	
 	public String toString(){
-		return "";
+		StringBuilder builder = new StringBuilder();
+		for(int i = originalList.size() - 1; i > 0 ; i--){
+			builder.append(originalList.get(i).b);
+			builder.append(':');
+			builder.append(' ');
+			builder.append(codeString(originalList.get(i).b));
+			builder.append('\n');
+		}
+		builder.append(originalList.get(0).b);
+		builder.append(':');
+		builder.append(' ');
+		builder.append(codeString(originalList.get(0).b));
+		return builder.toString();
 	}
 	
 	/**
@@ -83,5 +133,45 @@ public class HuffmanCode {
 			}
 		}	
 		return new HuffmanNode[]{smallest, second};
+	}
+	
+	/**
+	 * Traverses the tree and builds code for the nodes.
+	 * @param root HuffmanNode that serves as the root for the traversal.
+	 */
+	private void traverseAndBuild(HuffmanNode root){
+		ArrayList<Boolean> code = new ArrayList<Boolean>();
+		if(root.left != null){
+			code.add(false);
+			traverseAndBuild(root.left);
+		}
+		if(root.right != null){
+			code.add(true);
+			traverseAndBuild(root.right);
+		}
+		if(root.left == null && root.right == null){
+			boolean[] encoded = new boolean[code.size()];
+			for(int i = 0; i < encoded.length; i ++){
+				encoded[i] = code.get(i).booleanValue();
+			}
+			root.code = encoded;
+		}
+	}
+	
+	/**
+	 * Traverses the string until it finds a node with a given byte.
+	 * @param root the root of the Huffman tree
+	 * @param b byte that is being searched for
+	 * @return the HuffmanNode containing the byte desired
+	 */
+	private HuffmanNode traverseAndSearch(HuffmanNode root, byte b){
+		if(root.left != null)
+			traverseAndSearch(root.left, b);
+		if(root.right != null)
+			traverseAndSearch(root.right, b);
+		if(root.left == null && root.right == null && root.b == b)
+			return root;
+		else
+			return null;
 	}
 }
