@@ -79,7 +79,7 @@ public class HuffmanCode {
 		return traverseAndSearch(tree.getFirst(), b).code;
 	}
 	
-	public String codeString(byte b){
+	public String codeString(byte b) throws Exception{
 		boolean[] code = code(b);
 		StringBuilder builder = new StringBuilder();
 		for(int i = 0; i < code.length ; i++){
@@ -97,13 +97,21 @@ public class HuffmanCode {
 			builder.append(originalList.get(i).b);
 			builder.append(':');
 			builder.append(' ');
-			builder.append(codeString(originalList.get(i).b));
+			try {
+				builder.append(codeString(originalList.get(i).b));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			builder.append('\n');
 		}
 		builder.append(originalList.get(0).b);
 		builder.append(':');
 		builder.append(' ');
-		builder.append(codeString(originalList.get(0).b));
+		try {
+			builder.append(codeString(originalList.get(0).b));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return builder.toString();
 	}
 	
@@ -116,7 +124,7 @@ public class HuffmanCode {
 		HuffmanNode smallest = null;
 		HuffmanNode second = null;
 		smallest = list.get(0);
-		if(list.size() > 1 && list.get(1).count > list.get(0).count)
+		if(list.size() == 2 && list.get(1).count > list.get(0).count)
 			second = list.get(1);
 		else{
 			second = smallest;
@@ -165,13 +173,12 @@ public class HuffmanCode {
 	 * @return the HuffmanNode containing the byte desired
 	 */
 	private HuffmanNode traverseAndSearch(HuffmanNode root, byte b){
-		if(root.left != null)
-			traverseAndSearch(root.left, b);
-		if(root.right != null)
-			traverseAndSearch(root.right, b);
-		if(root.left == null && root.right == null && root.b == b)
+		if(root.b == b)
 			return root;
-		else
-			return null;
+		if(root.left != null)
+			return traverseAndSearch(root.left, b);
+		if(root.right != null)
+			return traverseAndSearch(root.right, b);
+		return null;
 	}
 }
