@@ -47,8 +47,7 @@ public class HuffmanCodeFundTest {
 	public void testCodeMethod() throws Exception {
     	HuffmanCode hc = new HuffmanCode(new byte [] {(byte)'a', (byte)'b'}, new int [] {2, 3});
     	boolean[] code = hc.code((byte)'a');
-    	assertTrue("This method reurns the code of specific byte",
-			true);
+    	assertFalse(code[0]);
 	}
 	
 	@Test
@@ -57,5 +56,5 @@ public class HuffmanCodeFundTest {
     	String s = hc.toString();
     	assertTrue("This method returns astring containing the table of the binary encodings of each byte in the Huffman tree",
 			true);
-	}
+	}	
 }

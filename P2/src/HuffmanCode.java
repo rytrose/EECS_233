@@ -32,12 +32,12 @@ public class HuffmanCode {
 			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
 			newNode.left = lowestTwo[0];
 			newNode.right = lowestTwo[1];
+			list.add(newNode);
 			list.remove(lowestTwo[0]);
 			list.remove(lowestTwo[1]);
-			list.add(newNode);
 		}
 		tree = list;
-		traverseAndBuild(tree.getFirst());
+		traverseAndBuild(tree.element());
 	}
 	
 	/**
@@ -66,11 +66,12 @@ public class HuffmanCode {
 			HuffmanNode newNode = new HuffmanNode((byte) 0, lowestTwo[0].count + lowestTwo[1].count);
 			newNode.left = lowestTwo[0];
 			newNode.right = lowestTwo[1];
+			list.add(newNode);
 			list.remove(lowestTwo[0]);
 			list.remove(lowestTwo[1]);
-			list.add(newNode);
 		}
 		tree = list;
+		traverseAndBuild(tree.element());
 	}
 	
 	public boolean[] code(byte b){
@@ -117,7 +118,7 @@ public class HuffmanCode {
 	
 	/**
 	 * Returns the HuffmanNodes with the two smallest counts.
-	 * @param list
+	 * @param list list from which the lowest two nodes are taken
 	 * @return an array where index 0 is the smallest count, and index 1 is the second smallest
 	 */
 	private HuffmanNode[] lowestTwo(HuffmanList list){
