@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -6,13 +7,31 @@ import java.util.ArrayList;
  * @author Ryan Rose
  */
 public class WordStat {
-
+	/**
+	 * Stores the tokenized list of words from the file or String array of words.
+	 */
+	private ArrayList<String> list;
+	
+	/**
+	 * Stores the hash table of words and their counts in the file or String array of words.
+	 */
+	private HashTable table;
+	
 	/**
 	 * Computes statistics from a file name.
 	 * @param file String representation of the file name
+	 * @throws FileNotFoundException
 	 */
-	public WordStat(String file){
-		
+	public WordStat(String file) throws FileNotFoundException{
+		list = new Tokenizer(file).wordList();
+		table = new HashTable(list.size() * 2);
+		for(String s : list){
+			int occurrence = table.get(s);
+			if(occurrence == -1)
+				table.update(s, 1);
+			else
+				table.update(s, occurrence + 1);
+		}
 	}
 	
 	/**
@@ -20,7 +39,15 @@ public class WordStat {
 	 * @param array String array from which the words are to be given statistics
 	 */
 	public WordStat(String[] array){
-		
+		list = new Tokenizer(array).wordList();
+		table = new HashTable(list.size() * 2);
+		for(String s : list){
+			int occurrence = table.get(s);
+			if(occurrence == -1)
+				table.update(s, 1);
+			else
+				table.update(s, occurrence + 1);
+		}
 	}
 	
 	/**
@@ -28,7 +55,13 @@ public class WordStat {
 	 * @param word the word for which the count is being searched
 	 */
 	public int wordCount(String word){
-		return 0;
+		word = word.toLowerCase();
+		word = word.replaceAll("\\s", "");
+		word = word.replaceAll("\\W", "");
+		if(table.get(word) == -1)
+			return 0;
+		else
+			return table.get(word);
 	}
 	
 	/**

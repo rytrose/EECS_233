@@ -104,7 +104,7 @@ public class HashTable {
 			put(key, value);
 		else{
 			for(int i = 0; i < list.size(); i++){
-				if(list.get(i).getKey() == key)
+				if(list.get(i).getKey().equals(key))
 					list.get(i).setValue(value);
 			}
 		}
@@ -121,7 +121,7 @@ public class HashTable {
 			return -1;
 		else{
 			for(int i = 0; i < list.size(); i++){
-				if(list.get(i).getKey() == key)
+				if(list.get(i).getKey().equals(key))
 					return list.get(i).getValue();
 			}
 		}
@@ -140,7 +140,7 @@ public class HashTable {
 			return -1;
 		else{
 			for(int i = 0; i < list.size(); i++){
-				if(list.get(i).getKey() == key)
+				if(list.get(i).getKey().equals(key))
 					return list.get(i).getValue();
 			}
 		}

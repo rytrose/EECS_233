@@ -21,6 +21,14 @@ public class WordStatFundTest {
 		assertTrue("The constructor should read the array and get statistics from it", 
 	            true);
 	}
+	
+	@Test
+	public void testWordCount(){
+		String test [] = {"This is the First Sentence!","This is the SECOND sentence$","@Just the third sentence"};
+		WordStat ws = new WordStat (test);
+		assertEquals("The count should be two for \"this\".", 3, ws.wordCount("the"));
+	}
+	
 	@Test
 	public void testMostCommonWords(){
 		String test [] = {"This is the First Sentence!","This is the SECOND sentence$","@Just the third sentence"};
