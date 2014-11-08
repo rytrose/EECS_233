@@ -19,7 +19,8 @@ public class HashEntry {
 	 * Creates a new HashEntry given a String key and int value.
 	 */
 	public HashEntry(String key, int value){
-		
+		this.key = key;
+		this.value = value;
 	}
 	
 	/**
