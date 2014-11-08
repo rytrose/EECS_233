@@ -16,7 +16,7 @@ public class Tokenizer {
 	/**
 	 * ArrayList that stores the extracted and normalized words.
 	 */
-	private ArrayList<String> list;
+	private ArrayList<String> list = new ArrayList<String>();
 	
 	/**
 	 * Constructor that extracts the words from a file, whose
@@ -28,12 +28,12 @@ public class Tokenizer {
 		Scanner sc = new Scanner(new File(s));
 		while(sc.hasNext() == true){
 			String word = sc.next();
-			word.toLowerCase();
-			word.replaceAll("\\s", "");
-			word.replaceAll("\\W", "");
+			word = word.toLowerCase();
+			word = word.replaceAll("\\s", "");
+			word = word.replaceAll("\\W", "");
 			list.add(word);
 		}
-		
+		sc.close();
 	}
 	
 	/**
@@ -41,7 +41,17 @@ public class Tokenizer {
 	 * @param s String array from which to obtain the words.
 	 */
 	public Tokenizer(String[] s){
-		
+		for(String string : s){
+			Scanner sc = new Scanner(string);
+			while(sc.hasNext() == true){
+				String word = sc.next();
+				word = word.toLowerCase();
+				word = word.replaceAll("\\s", "");
+				word = word.replaceAll("\\W", "");
+				list.add(word);
+			}
+			sc.close();
+		}
 	}
 	
 	/**
@@ -49,6 +59,6 @@ public class Tokenizer {
 	 * @return returns the list of words created by the constructors
 	 */
 	public ArrayList<String> wordList(){
-		return null;
+		return list;
 	}
 }
