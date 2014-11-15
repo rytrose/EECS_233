@@ -1,5 +1,8 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 
 /**
  * This class uses Tokenizer and HashTable to compute word statistics.
@@ -13,9 +16,24 @@ public class WordStat {
 	private ArrayList<String> list;
 	
 	/**
+	 * Array that stores the single-word HashEntrys, sorted by increasing rank in respect to value. (i.e. decreasing order of count)
+	 */
+	private HashEntry[] entries;
+	
+	/**
 	 * Stores the hash table of words and their counts in the file or String array of words.
 	 */
 	private HashTable table;
+	
+	/**
+	 * Stores the hash table of word pairs and their count.
+	 */
+	private HashTable pairTable;
+	
+	/**
+	 * Array that stores the word pair HashEntrys, sorted by increasing rank in respect to value. (i.e. decreasing order of count)
+	 */
+	private HashEntry[] pairEntries;
 	
 	/**
 	 * Computes statistics from a file name.
@@ -23,7 +41,10 @@ public class WordStat {
 	 * @throws FileNotFoundException
 	 */
 	public WordStat(String file) throws FileNotFoundException{
+		// Creates a list of all the words in the list
 		list = new Tokenizer(file).wordList();
+		
+		// Creates a hash table of the words and their counts
 		table = new HashTable(list.size() * 2);
 		for(String s : list){
 			int occurrence = table.get(s);
@@ -32,6 +53,57 @@ public class WordStat {
 			else
 				table.update(s, occurrence + 1);
 		}
+		
+		// Creates an array of all the single-word hash table entries
+		ArrayList<HashEntry> arrayListOfEntries = new ArrayList<HashEntry>((int)(table.getNumItems()));
+		ArrayList<LinkedList<HashEntry>> hashTable = table.getTable();
+		for(LinkedList<HashEntry> l: hashTable){
+			for(HashEntry e : l){
+				arrayListOfEntries.add(e);
+			}
+		}
+		entries = arrayListOfEntries.toArray(new HashEntry[(int)(table.getNumItems())]);
+		// Sorts the array into ascending order, meaning lowest rank is at index 0
+		Arrays.sort(entries);
+		// Flips the array
+		arrayListOfEntries = new ArrayList<HashEntry>();
+		for(int i = 0; i < entries.length; i++)
+			arrayListOfEntries.add(entries[i]);
+		Collections.reverse(arrayListOfEntries);
+		entries = arrayListOfEntries.toArray(entries);
+		
+		// Builds a hash table of word pairs.
+		pairTable = new HashTable((list.size() - 1) * 2);
+		int i = 0;
+		int j = 1;
+		int occurrence;
+		while(j < list.size()){
+			occurrence = table.get(list.get(i) + " " + list.get(j));
+			if(occurrence == -1)
+				pairTable.update(list.get(i) + " " + list.get(j), 1);
+			else
+				pairTable.update(list.get(i) + " " + list.get(j), occurrence + 1);
+			i++;
+			j++;
+		}
+		
+		// Creates an array of all the word pair hash table entries
+		ArrayList<HashEntry> arrayListOfPairEntries = new ArrayList<HashEntry>((int)(pairTable.getNumItems()));
+		ArrayList<LinkedList<HashEntry>> pairHashTable = pairTable.getTable();
+		for(LinkedList<HashEntry> l: pairHashTable){
+			for(HashEntry e : l){
+				arrayListOfPairEntries.add(e);
+			}
+		}
+		pairEntries = arrayListOfPairEntries.toArray(new HashEntry[(int)(pairTable.getNumItems())]);
+		// Sorts the array into ascending order, meaning lowest rank is at index 0
+		Arrays.sort(pairEntries);
+		// Flips the array
+		arrayListOfPairEntries = new ArrayList<HashEntry>();
+		for(int k = 0; k < pairEntries.length; k++)
+			arrayListOfPairEntries.add(pairEntries[k]);
+		Collections.reverse(arrayListOfPairEntries);
+		pairEntries = arrayListOfPairEntries.toArray(pairEntries);
 	}
 	
 	/**
@@ -39,7 +111,10 @@ public class WordStat {
 	 * @param array String array from which the words are to be given statistics
 	 */
 	public WordStat(String[] array){
+		// Creates a list of all the words in the list
 		list = new Tokenizer(array).wordList();
+		
+		// Creates a hash table of all the single words and their counts
 		table = new HashTable(list.size() * 2);
 		for(String s : list){
 			int occurrence = table.get(s);
@@ -48,6 +123,57 @@ public class WordStat {
 			else
 				table.update(s, occurrence + 1);
 		}
+		
+		// Creates an array of all the single-word hash table entries
+		ArrayList<HashEntry> arrayListOfEntries = new ArrayList<HashEntry>((int)(table.getNumItems()));
+		ArrayList<LinkedList<HashEntry>> hashTable = table.getTable();
+		for(LinkedList<HashEntry> l: hashTable){
+			for(HashEntry e : l){
+				arrayListOfEntries.add(e);
+			}
+		}
+		entries = arrayListOfEntries.toArray(new HashEntry[(int)(table.getNumItems())]);
+		// Sorts the array into ascending order, meaning lowest rank is at index 0
+		Arrays.sort(entries);
+		// Flips the array
+		arrayListOfEntries = new ArrayList<HashEntry>();
+		for(int i = 0; i < entries.length; i++)
+			arrayListOfEntries.add(entries[i]);
+		Collections.reverse(arrayListOfEntries);
+		entries = arrayListOfEntries.toArray(entries);	
+		
+		// Builds a hash table of word pairs.
+		pairTable = new HashTable((list.size() - 1) * 2);
+		int i = 0;
+		int j = 1;
+		int occurrence;
+		while(j < list.size()){
+			occurrence = table.get(list.get(i) + " " + list.get(j));
+			if(occurrence == -1)
+				pairTable.update(list.get(i) + " " + list.get(j), 1);
+			else
+				pairTable.update(list.get(i) + " " + list.get(j), occurrence + 1);
+			i++;
+			j++;
+		}
+		
+		// Creates an array of all the word pair hash table entries
+		ArrayList<HashEntry> arrayListOfPairEntries = new ArrayList<HashEntry>((int)(pairTable.getNumItems()));
+		ArrayList<LinkedList<HashEntry>> pairHashTable = pairTable.getTable();
+		for(LinkedList<HashEntry> l: pairHashTable){
+			for(HashEntry e : l){
+				arrayListOfPairEntries.add(e);
+			}
+		}
+		pairEntries = arrayListOfPairEntries.toArray(new HashEntry[(int)(pairTable.getNumItems())]);
+		// Sorts the array into ascending order, meaning lowest rank is at index 0
+		Arrays.sort(pairEntries);
+		// Flips the array
+		arrayListOfPairEntries = new ArrayList<HashEntry>();
+		for(int k = 0; k < pairEntries.length; k++)
+			arrayListOfPairEntries.add(pairEntries[k]);
+		Collections.reverse(arrayListOfPairEntries);
+		pairEntries = arrayListOfPairEntries.toArray(pairEntries);
 	}
 	
 	/**
@@ -65,11 +191,24 @@ public class WordStat {
 	}
 	
 	/**
-	 * Returns the rank of the word, where rank1 1 is the most common word.
+	 * Returns the rank of the word, where rank 1 is the most common word.
 	 * @param word the word for which the rank is desired
 	 */
-	public int wordRank(){
-		return -1;
+	public int wordRank(String word){
+		int rank = 0;
+		while(word.equals(entries[rank].getKey()) == false)
+			rank++;
+		if(rank == 0)
+			return rank + 1;
+		else{
+			if(entries[rank].getValue() != entries[rank - 1].getValue())
+				return rank + 1;
+			else{
+				while(rank > 0 && entries[rank].getValue() == entries[rank - 1].getValue())
+					rank = rank - 1;
+				return rank + 1;
+			}
+		}
 	}
 	
 	/**
@@ -77,15 +216,21 @@ public class WordStat {
 	 * @param k how many of the most common words are desired
 	 */
 	public String[] mostCommonWords(int k){
-		return null;
+		String[] s = new String[k];
+		for(int i = 0; i < k; i++)
+			s[i] = entries[i].getKey();
+		return s;
 	}
 	
 	/**
-	 * Returns the k most common words, in increasing order of their count.
+	 * Returns the k least common words, in increasing order of their count.
 	 * @param k how many of the least common words are desired
 	 */
 	public String[] leastCommonWords(int k){
-		return null;
+		String[] s = new String[k];
+		for(int i = 0; i < k; i++)
+			s[i] = entries[(entries.length - 1) - i].getKey();
+		return s;
 	}
 	
 	/**
@@ -143,6 +288,5 @@ public class WordStat {
 	public String generateWordString(int k, String startWord){
 		return null;
 	}
-	
 }
 
