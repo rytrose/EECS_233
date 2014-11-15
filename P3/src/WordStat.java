@@ -78,7 +78,7 @@ public class WordStat {
 		int j = 1;
 		int occurrence;
 		while(j < list.size()){
-			occurrence = table.get(list.get(i) + " " + list.get(j));
+			occurrence = pairTable.get(list.get(i) + " " + list.get(j));
 			if(occurrence == -1)
 				pairTable.update(list.get(i) + " " + list.get(j), 1);
 			else
@@ -148,7 +148,7 @@ public class WordStat {
 		int j = 1;
 		int occurrence;
 		while(j < list.size()){
-			occurrence = table.get(list.get(i) + " " + list.get(j));
+			occurrence = pairTable.get(list.get(i) + " " + list.get(j));
 			if(occurrence == -1)
 				pairTable.update(list.get(i) + " " + list.get(j), 1);
 			else
@@ -195,12 +195,17 @@ public class WordStat {
 	 * @param word the word for which the rank is desired
 	 */
 	public int wordRank(String word){
+		word = word.toLowerCase();
+		word = word.replaceAll("\\s", "");
+		word = word.replaceAll("\\W", "");
 		int rank = 0;
-		while(word.equals(entries[rank].getKey()) == false)
+		while(rank < entries.length && word.equals(entries[rank].getKey()) == false)
 			rank++;
 		if(rank == 0)
 			return rank + 1;
 		else{
+			if(rank == entries.length)
+				return 0;
 			if(entries[rank].getValue() != entries[rank - 1].getValue())
 				return rank + 1;
 			else{
@@ -239,7 +244,17 @@ public class WordStat {
 	 * @param w2 the second word
 	 */
 	public int wordPairCount(String w1, String w2){
-		return -1;
+		w1 = w1.toLowerCase();
+		w1 = w1.replaceAll("\\s", "");
+		w1 = w1.replaceAll("\\W", "");
+		w2 = w2.toLowerCase();
+		w2 = w2.replaceAll("\\s", "");
+		w2 = w2.replaceAll("\\W", "");
+		String s = w1 + " " + w2;
+		if(pairTable.get(s) == -1)
+			return 0;
+		else
+			return pairTable.get(s);
 	}
 	
 	/**
@@ -248,7 +263,29 @@ public class WordStat {
 	 * @param w2 the second word
 	 */
 	public int wordPairRank(String w1, String w2){
-		return -1;
+		w1 = w1.toLowerCase();
+		w1 = w1.replaceAll("\\s", "");
+		w1 = w1.replaceAll("\\W", "");
+		w2 = w2.toLowerCase();
+		w2 = w2.replaceAll("\\s", "");
+		w2 = w2.replaceAll("\\W", "");
+		String s = w1 + " " + w2;
+		int rank = 0;
+		while(rank < pairEntries.length && s.equals(pairEntries[rank].getKey()) == false)
+			rank++;
+		if(rank == 0)
+			return rank + 1;
+		else{
+			if(rank == pairEntries.length)
+				return 0;
+			if(pairEntries[rank].getValue() != pairEntries[rank - 1].getValue())
+				return rank + 1;
+			else{
+				while(rank > 0 && pairEntries[rank].getValue() == pairEntries[rank - 1].getValue())
+					rank = rank - 1;
+				return rank + 1;
+			}
+		}
 	}
 	
 	/**
@@ -256,7 +293,10 @@ public class WordStat {
 	 * @param k number of most common pairs to return
 	 */
 	public String[] mostCommonWordPairs(int k){
-		return null;
+		String[] s = new String[k];
+		for(int i = 0; i < k; i++)
+			s[i] = pairEntries[i].getKey();
+		return s;
 	}
 	
 	/**
@@ -266,8 +306,11 @@ public class WordStat {
 	 * @param i gives the relative position in order to determine whether to look before or after the base word
 	 */
 	public String[] mostCommonCollocs(int k, String baseWord, int i){
+		ArrayList<HashEntry> subList = new ArrayList<HashEntry>();
 		return null;
 	}
+	
+	// Extra Credit Methods
 	
 	/**
 	 * Returns the k most common collocations, with exclusions of any word in a given String array.
