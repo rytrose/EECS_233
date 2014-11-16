@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -111,4 +112,15 @@ public class WordStatFundTest {
 		assertTrue("returns a string composed of k words of the form startWord",true);
 	}
 	
+	@Test
+	public void testExample() throws FileNotFoundException{
+		WordStat ws = new WordStat("hhgttg.txt");
+		String[] common = ws.mostCommonWords(50);
+		for(int i = 0; i < common.length; i++)
+			System.out.println(common[i]);
+		System.out.print("\n");
+		String[] pairs = ws.mostCommonWordPairs(50);
+		for(int i = 0; i < pairs.length; i++)
+			System.out.println(pairs[i]);
+	}
 }

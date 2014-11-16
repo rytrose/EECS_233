@@ -31,7 +31,8 @@ public class Tokenizer {
 			word = word.toLowerCase();
 			word = word.replaceAll("\\s", "");
 			word = word.replaceAll("\\W", "");
-			list.add(word);
+			if(word.equals("") != true)
+				list.add(word);
 		}
 		sc.close();
 	}
@@ -48,7 +49,8 @@ public class Tokenizer {
 				word = word.toLowerCase();
 				word = word.replaceAll("\\s", "");
 				word = word.replaceAll("\\W", "");
-				list.add(word);
+				if(word.equals("") != true)
+					list.add(word);
 			}
 			sc.close();
 		}
