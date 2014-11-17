@@ -306,8 +306,35 @@ public class WordStat {
 	 * @param i gives the relative position in order to determine whether to look before or after the base word
 	 */
 	public String[] mostCommonCollocs(int k, String baseWord, int i){
-		ArrayList<HashEntry> subList = new ArrayList<HashEntry>();
-		return null;
+		ArrayList<String> subList = new ArrayList<String>();
+		if(i < 0){
+			int index = 0;
+			while(list.get(index).equals(baseWord) == false)
+				index = index + 1;
+			index = index + 1;
+			while(index < list.size()){
+				subList.add(list.get(index));
+				index = index + 1;
+			}
+			String[] subArray = new String[subList.size()];
+			subArray = subList.toArray(subArray);
+			WordStat newWS = new WordStat(subArray);
+			return newWS.mostCommonWords(k);
+		}
+		else{
+			int index = list.size() - 1;
+			while(list.get(index).equals(baseWord) == false)
+				index = index - 1;
+			index = index - 1;
+			while(index >= 0){
+				subList.add(list.get(index));
+				index = index - 1;
+			}
+			String[] subArray = new String[subList.size()];
+			subArray = subList.toArray(subArray);
+			WordStat newWS = new WordStat(subArray);
+			return newWS.mostCommonWords(k);
+		}
 	}
 	
 	// Extra Credit Methods
@@ -319,7 +346,7 @@ public class WordStat {
 	 * @param i gives the relative position in order to determine whether to look before or after the base word
 	 * @param exclusions String array containing the words to be excluded for most common collocations consideration
 	 */
-	public String[] mostCommonCollocsExc(int k, String baseWord, int i, ArrayList<String> exclusions){
+	public String[] mostCommonCollocsExc(int k, String baseWord, int i, String[] exclusions){
 		return null;
 	}
 	

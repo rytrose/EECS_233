@@ -2,7 +2,6 @@ import static org.junit.Assert.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -97,9 +96,7 @@ public class WordStatFundTest {
 	public void testMostCommonCollocsExc(){
 		String test [] = {"This is the First Sentence!","This is the SECOND sentence$","@Just the third sentence"};
 		WordStat ws = new WordStat (test);
-		ArrayList<String> exc = new ArrayList<String>();
-		exc.add("is");
-		exc.add("the");
+		String exc [] = {"the", "is"};
 		String[] common = ws.mostCommonCollocsExc(2,"This",4,exc);
 		assertTrue("returns the k most common words at a given relative position i to baseWord"
 				+"excluding the words in  exclusions array",true);
@@ -113,7 +110,7 @@ public class WordStatFundTest {
 	}
 	
 	@Test
-	public void testExample() throws FileNotFoundException{
+	public void testExamples() throws FileNotFoundException{
 		WordStat ws = new WordStat("hhgttg.txt");
 		String[] common = ws.mostCommonWords(50);
 		for(int i = 0; i < common.length; i++)
