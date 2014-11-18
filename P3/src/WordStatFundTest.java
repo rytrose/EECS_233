@@ -90,7 +90,8 @@ public class WordStatFundTest {
 		String test [] = {"This is the First Sentence!","This is the SECOND sentence$","@Just the third sentence"};
 		WordStat ws = new WordStat (test);
 		String[] common = ws.mostCommonCollocs(2,"the",2);
-		assertTrue("returns the k most common words at a given relative position i to baseWord",true);
+		String[] theoretical = {"sentence", "the"};
+		assertArrayEquals(common, theoretical);
 	}
 	@Test
 	public void testMostCommonCollocsExc(){
@@ -98,8 +99,8 @@ public class WordStatFundTest {
 		WordStat ws = new WordStat (test);
 		String exc [] = {"the", "is"};
 		String[] common = ws.mostCommonCollocsExc(2,"This",4,exc);
-		assertTrue("returns the k most common words at a given relative position i to baseWord"
-				+"excluding the words in  exclusions array",true);
+		String[] theoretical = {"sentence", "this"};
+		assertArrayEquals(common, theoretical);
 	}
 	@Test
 	public void testGenerateWordString(){
@@ -112,12 +113,48 @@ public class WordStatFundTest {
 	@Test
 	public void testExamples() throws FileNotFoundException{
 		WordStat ws = new WordStat("hhgttg.txt");
-		String[] common = ws.mostCommonWords(50);
+		String[] common = ws.mostCommonWords(100);
 		for(int i = 0; i < common.length; i++)
 			System.out.println(common[i]);
-		System.out.print("\n");
-		String[] pairs = ws.mostCommonWordPairs(50);
+		System.out.println("");
+		String[] least = ws.leastCommonWords(100);
+		for(int i = 0; i < least.length; i++)
+			System.out.println(least[i]);
+		System.out.println("");
+		String[] pairs = ws.mostCommonWordPairs(100);
 		for(int i = 0; i < pairs.length; i++)
 			System.out.println(pairs[i]);
+		
+		System.out.println(ws.wordRank("the"));
+		System.out.println(ws.wordRank("trillian"));
+		System.out.println(ws.wordCount("the"));
+		System.out.println(ws.wordCount("of"));
+		System.out.println(ws.wordCount("trillian"));
+		System.out.println(ws.wordCount("could"));
+		System.out.println(ws.wordCount("two"));
+		System.out.println(ws.wordRank("could"));
+		System.out.println(ws.wordRank("two"));
+		System.out.println(ws.wordCount("my"));
+		System.out.println(ws.wordRank("my"));
+		System.out.println(ws.wordCount("throttled"));
+		System.out.println(ws.wordRank("throttled"));
+		
+		System.out.println("");
+		String[] collocs = ws.mostCommonCollocs(10, "arthur", -1);
+		for(int i = 0; i < collocs.length; i++)
+			System.out.println(collocs[i]);
+		System.out.println("");
+		String[] collocs1 = ws.mostCommonCollocs(10, "arthur", 1);
+		for(int i = 0; i < collocs1.length; i++)
+			System.out.println(collocs1[i]);
+		System.out.println("");
+		String[] exc = ws.mostCommonWords(70);
+		String[] collocs2 = ws.mostCommonCollocsExc(10, "arthur", -1, exc);
+		for(int i = 0; i < collocs2.length; i++)
+			System.out.println(collocs2[i]);
+		System.out.println();
+		String[] collocs3 = ws.mostCommonCollocsExc(10, "arthur", 1, exc);
+		for(int i = 0; i < collocs3.length; i++)
+			System.out.println(collocs3[i]);
 	}
 }

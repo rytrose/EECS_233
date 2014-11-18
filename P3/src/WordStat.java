@@ -307,7 +307,10 @@ public class WordStat {
 	 */
 	public String[] mostCommonCollocs(int k, String baseWord, int i){
 		ArrayList<String> subList = new ArrayList<String>();
-		if(i < 0){
+		baseWord = baseWord.toLowerCase();
+		baseWord = baseWord.replaceAll("\\s", "");
+		baseWord = baseWord.replaceAll("\\W", "");
+		if(i >= 0){
 			int index = 0;
 			while(list.get(index).equals(baseWord) == false)
 				index = index + 1;
@@ -337,6 +340,15 @@ public class WordStat {
 		}
 	}
 	
+	// Helper Methods
+	public boolean isInArray(String[] array, String s){
+		for(int i = 0; i < array.length; i++){
+			if(s.equals(array[i]) == true)
+				return true;
+		}
+		return false;
+	}
+	
 	// Extra Credit Methods
 	
 	/**
@@ -347,7 +359,40 @@ public class WordStat {
 	 * @param exclusions String array containing the words to be excluded for most common collocations consideration
 	 */
 	public String[] mostCommonCollocsExc(int k, String baseWord, int i, String[] exclusions){
-		return null;
+		ArrayList<String> subList = new ArrayList<String>();
+		baseWord = baseWord.toLowerCase();
+		baseWord = baseWord.replaceAll("\\s", "");
+		baseWord = baseWord.replaceAll("\\W", "");
+		if(i >= 0){
+			int index = 0;
+			while(list.get(index).equals(baseWord) == false)
+				index = index + 1;
+			index = index + 1;
+			while(index < list.size()){
+				if(!isInArray(exclusions, list.get(index)))
+					subList.add(list.get(index));
+				index = index + 1;
+			}
+			String[] subArray = new String[subList.size()];
+			subArray = subList.toArray(subArray);
+			WordStat newWS = new WordStat(subArray);
+			return newWS.mostCommonWords(k);
+		}
+		else{
+			int index = (list.size() - 1);
+			while(list.get(index).equals(baseWord) == false)
+				index = index - 1;
+			index = index - 1;
+			while(index >= 0){
+				if(!isInArray(exclusions, list.get(index)))
+					subList.add(list.get(index));
+				index = index - 1;
+			}
+			String[] subArray = new String[subList.size()];
+			subArray = subList.toArray(subArray);
+			WordStat newWS = new WordStat(subArray);
+			return newWS.mostCommonWords(k);
+		}
 	}
 	
 	/**
