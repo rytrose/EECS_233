@@ -223,7 +223,8 @@ public class WordStat {
 	public String[] mostCommonWords(int k){
 		String[] s = new String[k];
 		for(int i = 0; i < k; i++)
-			s[i] = entries[i].getKey();
+			if(i < entries.length)
+				s[i] = entries[i].getKey();
 		return s;
 	}
 	
