@@ -10,5 +10,6 @@ public class WordGraphTest {
 	@Test
 	public void test() throws FileNotFoundException {
 		WordGraph g = new WordGraph("file.txt");
+		System.out.println("hi");
 	}
 }
