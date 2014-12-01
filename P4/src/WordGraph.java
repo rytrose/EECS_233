@@ -144,5 +144,61 @@ public class WordGraph {
 			jNode.adjBack.add(tempJI);
 	}
 	
+	public int numNodes(){
+		return graph.size();
+	}
 	
+	public int numEdges(){
+		int edges = 0;
+		for(WordNode n : graph){
+			edges = edges + n.adjBack.size() + n.adjFor.size();
+		}
+		return edges;
+	}
+	
+	public int inDegree(String w){
+		WordNode temp = new WordNode(w, -2);
+		if(graph.contains(temp)){
+			temp = graph.get(graph.indexOf(temp));
+			return temp.adjBack.size();
+		}
+		else
+			return -1;
+	}
+	
+	public int outDegree(String w){
+		WordNode temp = new WordNode(w, -2);
+		if(graph.contains(temp)){
+			temp = graph.get(graph.indexOf(temp));
+			return temp.adjFor.size();
+		}
+		else
+			return -1;
+	}
+	
+	public String[] prevWords(String w){
+		WordNode temp = new WordNode(w, -2);
+		if(graph.contains(temp)){
+			temp = graph.get(graph.indexOf(temp));
+			String[] prev = new String[temp.adjBack.size()];
+			for(int i = 0; i < temp.adjBack.size(); i++)
+				prev[i] = temp.adjBack.get(i).targetWord.word;
+			return prev;
+		}
+		else
+			return null;
+	}
+	
+	public String[] nextWords(String w){
+		WordNode temp = new WordNode(w, -2);
+		if(graph.contains(temp)){
+			temp = graph.get(graph.indexOf(temp));
+			String[] next = new String[temp.adjFor.size()];
+			for(int i = 0; i < temp.adjFor.size(); i++)
+				next[i] = temp.adjFor.get(i).targetWord.word;
+			return next;
+		}
+		else
+			return null;
+	}
 }
