@@ -159,7 +159,23 @@ public class WordGraph {
 		return edges;
 	}
 	
+	public int wordCount(String w){
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
+		WordNode temp = new WordNode(w, -2);
+		if(graph.contains(temp)){
+			temp = graph.get(graph.indexOf(temp));
+			return temp.count;
+		}
+		else
+			return 0;
+	}
+	
 	public int inDegree(String w){
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
 		WordNode temp = new WordNode(w, -2);
 		if(graph.contains(temp)){
 			temp = graph.get(graph.indexOf(temp));
@@ -170,6 +186,9 @@ public class WordGraph {
 	}
 	
 	public int outDegree(String w){
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
 		WordNode temp = new WordNode(w, -2);
 		if(graph.contains(temp)){
 			temp = graph.get(graph.indexOf(temp));
@@ -180,6 +199,9 @@ public class WordGraph {
 	}
 	
 	public String[] prevWords(String w){
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
 		WordNode temp = new WordNode(w, -2);
 		if(graph.contains(temp)){
 			temp = graph.get(graph.indexOf(temp));
@@ -193,6 +215,9 @@ public class WordGraph {
 	}
 	
 	public String[] nextWords(String w){
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
 		WordNode temp = new WordNode(w, -2);
 		if(graph.contains(temp)){
 			temp = graph.get(graph.indexOf(temp));
