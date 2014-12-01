@@ -7,9 +7,16 @@ import org.junit.Test;
 
 
 public class WordGraphTest {
-
+	
 	@Test
-	public void test() throws FileNotFoundException {
+	public void testSingleWord() throws FileNotFoundException{
+		WordGraph g = new WordGraph("single_word.txt");
+		System.out.println(g.numNodes());
+		System.out.println(g.numEdges());
+	}
+		
+	@Test
+	public void testTest() throws FileNotFoundException {
 		WordGraph g = new WordGraph("test.txt");
 		System.out.println(g.numNodes());
 		System.out.println(g.numEdges());

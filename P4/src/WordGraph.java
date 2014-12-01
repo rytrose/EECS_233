@@ -69,8 +69,7 @@ public class WordGraph {
 		
 	}
 	
-	private int numWords;
-	private int maxWords;
+
 	private ArrayList<String> list;
 	private ArrayList<WordNode> graph;
 
@@ -78,25 +77,65 @@ public class WordGraph {
 		Tokenizer t = new Tokenizer(file);
 		list = t.wordList();
 		graph = new ArrayList<WordNode>(list.size());
-		numWords = 0;
-		maxWords = list.size();
 		
-		// Handle first word
-		WordNode first = new WordNode(list.get(0), 1);
-		graph.add(first);
-		WordNode second = new WordNode(list.get(1), 1);
-		graph.add(second);
-		WordPair firstSecond = new WordPair(second, 1);
-		first.adjFor.add(firstSecond);
-		
-		// Handle all words but last
-		int k = 2;
-		
-		WordNode iNode = first;
-		WordNode jNode = second;
-		WordNode kNode = null;
-		
-		while(k < list.size()){
+		if(list.size() == 1){
+			WordNode word = new WordNode(list.get(0), 1);
+			graph.add(word);
+		}
+		else{
+			// Handle first word
+			WordNode first = new WordNode(list.get(0), 1);
+			graph.add(first);
+			WordNode second = new WordNode(list.get(1), 1);
+			graph.add(second);
+			WordPair firstSecond = new WordPair(second, 1);
+			first.adjFor.add(firstSecond);
+			
+			// Handle all words but last
+			int k = 2;
+			
+			WordNode iNode = first;
+			WordNode jNode = second;
+			WordNode kNode = null;
+			
+			while(k < list.size()){
+				// Checks if JI pair already occurs
+				WordPair tempJI = new WordPair(iNode, 1);
+				if(jNode.adjBack.contains(tempJI)){
+					WordPair wordPairJI = jNode.adjBack.get(jNode.adjBack.indexOf(tempJI));
+					wordPairJI.increaseCount(1);
+				}
+				else
+					jNode.adjBack.add(tempJI);
+			
+				// Look at k
+				WordNode temp = new WordNode(list.get(k), 1);
+				// If the node is already in the graph, increase its count
+				if(graph.contains(temp)){
+					kNode = graph.get(graph.indexOf(temp));
+					kNode.increaseCount(1);
+				}
+				// Else add the node to the graph
+				else{
+					kNode = new WordNode(list.get(k), 1);
+					graph.add(kNode);
+				}
+			
+				// Checks if JK pair already occurs
+				WordPair tempJK = new WordPair(kNode, 1);
+				if(jNode.adjFor.contains(tempJK)){
+					WordPair wordPairJK = jNode.adjFor.get(jNode.adjFor.indexOf(tempJK));
+					wordPairJK.increaseCount(1);
+				}
+				else
+					jNode.adjFor.add(tempJK);
+				k++;
+				iNode = jNode;
+				jNode = kNode;
+				kNode = null;
+			}
+			
+			// Handle last word
 			// Checks if JI pair already occurs
 			WordPair tempJI = new WordPair(iNode, 1);
 			if(jNode.adjBack.contains(tempJI)){
@@ -105,43 +144,7 @@ public class WordGraph {
 			}
 			else
 				jNode.adjBack.add(tempJI);
-		
-			// Look at k
-			WordNode temp = new WordNode(list.get(k), 1);
-			// If the node is already in the graph, increase its count
-			if(graph.contains(temp)){
-				kNode = graph.get(graph.indexOf(temp));
-				kNode.increaseCount(1);
-			}
-			// Else add the node to the graph
-			else{
-				kNode = new WordNode(list.get(k), 1);
-				graph.add(kNode);
-			}
-		
-			// Checks if JK pair already occurs
-			WordPair tempJK = new WordPair(kNode, 1);
-			if(jNode.adjFor.contains(tempJK)){
-				WordPair wordPairJK = jNode.adjFor.get(jNode.adjFor.indexOf(tempJK));
-				wordPairJK.increaseCount(1);
-			}
-			else
-				jNode.adjFor.add(tempJK);
-			k++;
-			iNode = jNode;
-			jNode = kNode;
-			kNode = null;
 		}
-		
-		// Handle last word
-		// Checks if JI pair already occurs
-		WordPair tempJI = new WordPair(iNode, 1);
-		if(jNode.adjBack.contains(tempJI)){
-			WordPair wordPairJI = jNode.adjBack.get(jNode.adjBack.indexOf(tempJI));
-			wordPairJI.increaseCount(1);
-		}
-		else
-			jNode.adjBack.add(tempJI);
 	}
 	
 	public int numNodes(){
