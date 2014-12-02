@@ -16,18 +16,49 @@ public class WordGraph {
 	 */
 	public class WordNode implements Comparable<WordNode>{
 		
+		/**
+		 * Holds the word of each node.
+		 */
 		public String word;
+		
+		/**
+		 * Holds the number of times the word occurs in the text.
+		 */
 		public int count;
+		
+		/**
+		 * Adjacency list of all the forward edges, i.e. words coming after this word in the text.
+		 */
 		public LinkedList<WordPair> adjFor = new LinkedList<WordPair>();
+		
+		/**
+		 * Adjacency list of all the backward edges, i.e. words coming before this word in the text.
+		 */
 		public LinkedList<WordPair> adjBack = new LinkedList<WordPair>();
+		
+		/**
+		 * Max distance estimate from one word to this word. 
+		 */
 		public int maxDistance = 0;
+		
+		/**
+		 * Parent word that gives the max distance.
+		 */
 		public WordNode parent = null;
 		
+		/**
+		 * Constructor that initialized the fields of the node.
+		 * @param s word of the WordNode
+		 * @param i number of times the word appears in the text
+		 */
 		public WordNode(String s, int i){
 			word = s;
 			count = i;
 		}
 		
+		/**
+		 * Defines equality of WordNodes as equal if the words are the same.
+		 */
 		@Override
 		public boolean equals(Object o){
 			if(o instanceof WordNode){
@@ -37,15 +68,25 @@ public class WordGraph {
 				return false;
 		}
 		
+		/**
+		 * Increases the count of the WordNode.
+		 * @param i increment of increase
+		 */
 		public void increaseCount(int i){
 			count = count + i;
 		}
 		
+		/**
+		 * Defines comparison of WordNodes as the comparison of their maxDistance from a node.
+		 */
 		@Override
 		public int compareTo(WordNode other){
 			return Integer.compare(maxDistance, other.maxDistance);
 		}
 		
+		/**
+		 * Returns the String of the word in this node.
+		 */
 		public String toString(){
 			return word;
 		}
@@ -56,14 +97,29 @@ public class WordGraph {
 	 */
 	public class WordPair{
 		
+		/**
+		 * Holds the target word for this edge.
+		 */
 		public WordNode targetWord;
+		
+		/**
+		 * Holds the number of times this word pair appears in the text, i.e. the weight of the edge.
+		 */
 		public int count;
 		
+		/**
+		 * Constructor that initializes the target word and count.
+		 * @param n the WordNode of the target word
+		 * @param i number of times this pair occurs in the text
+		 */
 		public WordPair(WordNode n, int i){
 			targetWord = n;
 			count = i;
 		}
 		
+		/**
+		 * Defines equality of WordPairs as equal if the target word is the same.
+		 */
 		@Override
 		public boolean equals(Object o){
 			if(o instanceof WordPair){
@@ -73,16 +129,31 @@ public class WordGraph {
 				return false;
 		}
 		
+		/**
+		 * Increases the count of the WordPair.
+		 * @param i increment of increase
+		 */
 		public void increaseCount(int i){
 			count = count + i;
 		}
 		
 	}
 	
-
+	/**
+	 * Stores the tokenized list of words from the text.
+	 */
 	private ArrayList<String> list;
+	
+	/**
+	 * Stores the vertexes, i.e. the graph itself.
+	 */
 	private ArrayList<WordNode> graph;
 
+	/**
+	 * Constructor that tokenizes the words of the file, then constructs a graph of the words in the text.
+	 * @param file input file of text to be made into a graph
+	 * @throws FileNotFoundException
+	 */
 	public WordGraph(String file) throws FileNotFoundException{
 		Tokenizer t = new Tokenizer(file);
 		list = t.wordList();
@@ -157,10 +228,18 @@ public class WordGraph {
 		}
 	}
 	
+	/**
+	 * Returns the number of nodes in the graph.
+	 * @return returns the number of nodes in the graph
+	 */
 	public int numNodes(){
 		return graph.size();
 	}
 	
+	/**
+	 * Returns the number of edges in the graph.
+	 * @return returns the number of edges in the graph
+	 */
 	public int numEdges(){
 		int edges = 0;
 		for(WordNode n : graph){
@@ -169,6 +248,11 @@ public class WordGraph {
 		return edges;
 	}
 	
+	/**
+	 * Returns the number of times a word occurs in the text.
+	 * @param w the word whose count is desired
+	 * @return returns the number of times word w occurs in the text
+	 */
 	public int wordCount(String w){
 		w = w.toLowerCase();
 		w = w.replaceAll("\\s", "");
@@ -182,6 +266,11 @@ public class WordGraph {
 			return 0;
 	}
 	
+	/**
+	 * Returns the in-degree of a word in the text.
+	 * @param w the word whose in-degree is desired
+	 * @return returns the in-degree of word w in the text
+	 */
 	public int inDegree(String w){
 		w = w.toLowerCase();
 		w = w.replaceAll("\\s", "");
@@ -195,6 +284,11 @@ public class WordGraph {
 			return -1;
 	}
 	
+	/**
+	 * Returns the out-degree of a word in the text.
+	 * @param w the word whose out-degree is desired
+	 * @return returns the out-degree of word w in the text
+	 */
 	public int outDegree(String w){
 		w = w.toLowerCase();
 		w = w.replaceAll("\\s", "");
@@ -208,6 +302,11 @@ public class WordGraph {
 			return -1;
 	}
 	
+	/**
+	 * Returns a string array of all the unique words that directly precede a given word in the text.
+	 * @param w the word whose preceding words are desired
+	 * @return returns the all the unique words that precede a word w in the text 
+	 */
 	public String[] prevWords(String w){
 		w = w.toLowerCase();
 		w = w.replaceAll("\\s", "");
@@ -224,6 +323,11 @@ public class WordGraph {
 			return null;
 	}
 	
+	/**
+	 * Returns a string array of all the unique words that directly follow a given word in the text.
+	 * @param w the word whose following words are desired
+	 * @return returns the all the unique words that follow a word w in the text 
+	 */
 	public String[] nextWords(String w){
 		w = w.toLowerCase();
 		w = w.replaceAll("\\s", "");
@@ -240,6 +344,11 @@ public class WordGraph {
 			return null;
 	}
 	
+	/**
+	 * Returns the count of a sequence of words in the text.
+	 * @param wordSeq the sequence of words whose count is desired
+	 * @return returns the count of a sequence of words in the text
+	 */
 	public double wordSeqCount(String[] wordSeq){
 		int count = 0;
 		// For every word in the sequence
@@ -259,7 +368,8 @@ public class WordGraph {
 		}
 		return (double) count;
 	}
-	
+
+
 	public String generatePhrase(String startWord, String endWord, int N){
 		computeDijkstra(startWord);
 		ArrayList<WordNode> maxPath = maxPath(endWord);
