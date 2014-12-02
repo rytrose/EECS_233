@@ -1,6 +1,8 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * Creates a graph of words from a file.
@@ -12,13 +14,13 @@ public class WordGraph {
 	/**
 	 * Node for each word in the graph.
 	 */
-	public class WordNode{
+	public class WordNode implements Comparable<WordNode>{
 		
 		public String word;
 		public int count;
 		public LinkedList<WordPair> adjFor = new LinkedList<WordPair>();
 		public LinkedList<WordPair> adjBack = new LinkedList<WordPair>();
-		public boolean encountered;
+		public int maxDistance = 0;
 		public WordNode parent = null;
 		
 		public WordNode(String s, int i){
@@ -38,7 +40,15 @@ public class WordGraph {
 		public void increaseCount(int i){
 			count = count + i;
 		}
-				
+		
+		@Override
+		public int compareTo(WordNode other){
+			return Integer.compare(maxDistance, other.maxDistance);
+		}
+		
+		public String toString(){
+			return word;
+		}
 	}
 	
 	/**
@@ -228,5 +238,83 @@ public class WordGraph {
 		}
 		else
 			return null;
+	}
+	
+	public double wordSeqCount(String[] wordSeq){
+		int count = 0;
+		// For every word in the sequence
+		for(int i = 0; i < wordSeq.length - 1; i++){
+			WordNode temp = new WordNode(wordSeq[i], 0);
+			if(graph.contains(temp)){
+				// Find the word in the graph
+				temp = graph.get(graph.indexOf(temp));
+				WordNode next = new WordNode(wordSeq[i + 1], 0);
+				for(WordPair w : temp.adjFor){
+					// Find the next word in the adjacency list of the current word
+					if(w.targetWord.equals(next))
+						// Increase the sequence count
+						count = count + w.count;
+				}
+			}
+		}
+		return (double) count;
+	}
+	
+	public String generatePhrase(String startWord, String endWord, int N){
+		computeDijkstra(startWord);
+		ArrayList<WordNode> maxPath = maxPath(endWord);
+		if(maxPath.size() > N)
+			return "";
+		else{
+			StringBuilder b = new StringBuilder();
+			for(int i = 0; i < maxPath.size() - 1; i++){
+				b.append(maxPath.get(i).toString());
+				b.append(" ");
+			}
+			b.append(maxPath.get(maxPath.size() - 1).toString());
+			return b.toString();
+		}
+	}
+	
+	// Dijkstra's
+	public void computeDijkstra(String s){
+		// Retrieve the node with the correct String
+		WordNode n = new WordNode(s, 0);
+		if(!graph.contains(n))
+			System.out.println("No node with that word.");
+		n = graph.get(graph.indexOf(n));
+		
+		// Priority Queue with max distance as highest priority
+		PriorityQueue<WordNode> queue = new PriorityQueue<WordNode>();
+		queue.add(n);
+		
+		while(!queue.isEmpty()){
+			WordNode u = queue.poll();
+			for(WordPair e : u.adjFor){
+				WordNode v = e.targetWord;
+				int weight = e.count;
+				int distanceThroughU = u.maxDistance + weight;
+				if(distanceThroughU > v.maxDistance){
+					queue.remove(v);
+					v.maxDistance = distanceThroughU;
+					v.parent = u;
+					queue.add(v);
+				}
+			}
+		}
+	}
+	
+	public ArrayList<WordNode> maxPath(String s){
+		// Retrieve the node with the correct String
+		WordNode target = new WordNode(s, 0);
+		if(!graph.contains(target))
+			System.out.println("No node with that word.");
+		target = graph.get(graph.indexOf(target));
+		
+		ArrayList<WordNode> path = new ArrayList<WordNode>();
+		for(WordNode node = target; node != null; node = node.parent)
+			path.add(node);
+		Collections.reverse(path);
+		return path;
 	}
 }

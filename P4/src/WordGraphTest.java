@@ -33,6 +33,9 @@ public class WordGraphTest {
 	@Test
 	public void testFile() throws FileNotFoundException{
 		WordGraph g = new WordGraph("file.txt");
+		String[] seq = {"now", "a", "days"};
+		System.out.println(g.generatePhrase("now", "days", 5));
+		System.out.println(g.wordSeqCount(seq));
 		System.out.println(g.numNodes());
 		System.out.println(g.numEdges());
 		System.out.println(g.wordCount("a"));
