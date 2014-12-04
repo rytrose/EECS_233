@@ -21,6 +21,7 @@ public class WordGraph {
 		 */
 		public String word;
 		
+		
 		/**
 		 * Holds the number of times the word occurs in the text.
 		 */
@@ -37,9 +38,9 @@ public class WordGraph {
 		public LinkedList<WordPair> adjBack = new LinkedList<WordPair>();
 		
 		/**
-		 * Max distance estimate from one word to this word. 
+		 * Current minimum distance through that node. 
 		 */
-		public int maxDistance = 0;
+		public double min = Double.POSITIVE_INFINITY;
 		
 		/**
 		 * Parent word that gives the max distance.
@@ -81,7 +82,7 @@ public class WordGraph {
 		 */
 		@Override
 		public int compareTo(WordNode other){
-			return Integer.compare(maxDistance, other.maxDistance);
+			return Double.compare(min, other.min);
 		}
 		
 		/**
@@ -106,6 +107,11 @@ public class WordGraph {
 		 * Holds the number of times this word pair appears in the text, i.e. the weight of the edge.
 		 */
 		public int count;
+		
+		/**
+		 * Edge cost, i.e. measure of probability. 
+		 */
+		public double cost = 0.0;
 		
 		/**
 		 * Constructor that initializes the target word and count.
@@ -150,6 +156,11 @@ public class WordGraph {
 	private ArrayList<WordNode> graph;
 
 	/**
+	 * Holds the number of words in the text.
+	 */
+	public int numWords;
+	
+	/**
 	 * Constructor that tokenizes the words of the file, then constructs a graph of the words in the text.
 	 * @param file input file of text to be made into a graph
 	 * @throws FileNotFoundException
@@ -157,6 +168,7 @@ public class WordGraph {
 	public WordGraph(String file) throws FileNotFoundException{
 		Tokenizer t = new Tokenizer(file);
 		list = t.wordList();
+		numWords = list.size();
 		graph = new ArrayList<WordNode>(list.size());
 		
 		if(list.size() == 1){
@@ -225,6 +237,14 @@ public class WordGraph {
 			}
 			else
 				jNode.adjBack.add(tempJI);
+		}
+		
+		// Compute all the edge costs
+		for(WordNode node : graph){
+			for(WordPair pair : node.adjBack)
+				pair.cost = computeCost(node.count, pair.count);
+			for(WordPair pair : node.adjFor)
+				pair.cost = computeCost(node.count, pair.count);
 		}
 	}
 	
@@ -345,30 +365,46 @@ public class WordGraph {
 	}
 	
 	/**
-	 * Returns the count of a sequence of words in the text.
+	 * Returns the cost of a sequence of words in the text.
 	 * @param wordSeq the sequence of words whose count is desired
-	 * @return returns the count of a sequence of words in the text
+	 * @return returns the cost of a sequence of words in the text
 	 */
-	public double wordSeqCount(String[] wordSeq){
-		int count = 0;
-		// For every word in the sequence
-		for(int i = 0; i < wordSeq.length - 1; i++){
-			WordNode temp = new WordNode(wordSeq[i], 0);
-			if(graph.contains(temp)){
+	public double wordSeqCost(String[] wordSeq){
+		String[] normWordSeq = new String[wordSeq.length];
+		for(int i = 0; i < wordSeq.length; i++){
+			String w = wordSeq[i];
+			w = w.toLowerCase();
+			w = w.replaceAll("\\s", "");
+			w = w.replaceAll("\\W", "");
+			normWordSeq[i] = w;
+		}
+		String w = normWordSeq[0];
+		WordNode temp = new WordNode(w, 0);
+		if(!graph.contains(temp))
+			throw new IllegalArgumentException();
+		temp = graph.get(graph.indexOf(temp));
+		double totalCost = Math.log((double)(numWords)/(double)(temp.count));
+		for(int i = 0; i < normWordSeq.length - 1; i++){
+			WordNode temp1 = new WordNode(normWordSeq[i], 0);
+			if(graph.contains(temp1)){
 				// Find the word in the graph
-				temp = graph.get(graph.indexOf(temp));
-				WordNode next = new WordNode(wordSeq[i + 1], 0);
-				for(WordPair w : temp.adjFor){
+				temp1 = graph.get(graph.indexOf(temp1));
+				WordNode next = new WordNode(normWordSeq[i + 1], 0);
+				if(!graph.contains(next))
+					throw new IllegalArgumentException();
+				next = graph.get(graph.indexOf(next));
+				for(WordPair pair : temp1.adjFor){
 					// Find the next word in the adjacency list of the current word
-					if(w.targetWord.equals(next))
+					if(pair.targetWord.equals(next))
 						// Increase the sequence count
-						count = count + w.count;
+						totalCost = totalCost + Math.log((double)(temp1.count)/(double)(pair.count));
 				}
 			}
+			else
+				throw new IllegalArgumentException();
 		}
-		return (double) count;
+		return totalCost;
 	}
-
 
 	public String generatePhrase(String startWord, String endWord, int N){
 		computeDijkstra(startWord);
@@ -388,11 +424,17 @@ public class WordGraph {
 	
 	// Dijkstra's
 	public void computeDijkstra(String s){
+		String w = s;
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
+		
 		// Retrieve the node with the correct String
-		WordNode n = new WordNode(s, 0);
+		WordNode n = new WordNode(w, 0);
 		if(!graph.contains(n))
-			System.out.println("No node with that word.");
+			throw new IllegalArgumentException();
 		n = graph.get(graph.indexOf(n));
+		n.min = 0.0;
 		
 		// Priority Queue with max distance as highest priority
 		PriorityQueue<WordNode> queue = new PriorityQueue<WordNode>();
@@ -402,11 +444,11 @@ public class WordGraph {
 			WordNode u = queue.poll();
 			for(WordPair e : u.adjFor){
 				WordNode v = e.targetWord;
-				int weight = e.count;
-				int distanceThroughU = u.maxDistance + weight;
-				if(distanceThroughU > v.maxDistance){
+				double weight = e.cost;
+				double distanceThroughU = u.min + weight;
+				if(distanceThroughU < v.min){
 					queue.remove(v);
-					v.maxDistance = distanceThroughU;
+					v.min = distanceThroughU;
 					v.parent = u;
 					queue.add(v);
 				}
@@ -415,16 +457,24 @@ public class WordGraph {
 	}
 	
 	public ArrayList<WordNode> maxPath(String s){
-		// Retrieve the node with the correct String
-		WordNode target = new WordNode(s, 0);
-		if(!graph.contains(target))
-			System.out.println("No node with that word.");
-		target = graph.get(graph.indexOf(target));
+		String w = s;
+		w = w.toLowerCase();
+		w = w.replaceAll("\\s", "");
+		w = w.replaceAll("\\W", "");
 		
+		// Retrieve the node with the correct String
+		WordNode target = new WordNode(w, 0);
+		if(!graph.contains(target))
+			throw new IllegalArgumentException();
+		target = graph.get(graph.indexOf(target));
 		ArrayList<WordNode> path = new ArrayList<WordNode>();
 		for(WordNode node = target; node != null; node = node.parent)
 			path.add(node);
 		Collections.reverse(path);
 		return path;
+	}
+	
+	private double computeCost(double wordCount, double pairCount){
+		return Math.log(wordCount/pairCount);
 	}
 }

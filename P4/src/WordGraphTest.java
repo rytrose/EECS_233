@@ -35,14 +35,14 @@ public class WordGraphTest {
 		WordGraph g = new WordGraph("file.txt");
 		String[] seq = {"now", "a", "days"};
 		System.out.println(g.generatePhrase("now", "days", 5));
-		System.out.println(g.wordSeqCount(seq));
+		System.out.println(g.wordSeqCost(seq));
 		System.out.println(g.numNodes());
 		System.out.println(g.numEdges());
 		System.out.println(g.wordCount("a"));
 		System.out.println(g.inDegree("!a"));
 		System.out.println(g.outDegree("a*"));
-		System.out.println(Arrays.toString(g.prevWords("A")));
-		System.out.println(Arrays.toString(g.nextWords("A@")));
+		System.out.println(Arrays.toString(g.prevWords("wanna")));
+		System.out.println(Arrays.toString(g.nextWords("wanna")));
 		System.out.println();
 	}
 	
@@ -53,5 +53,22 @@ public class WordGraphTest {
 		System.out.println(g.wordCount("a"));
 		System.out.println(g.numEdges());
 		System.out.println();
+	}
+	
+	@Test
+	public void testShortTest() throws FileNotFoundException{
+		WordGraph g = new WordGraph("short_test");
+		String[] shortTest = {"is", "a", "test"};
+		System.out.println(g.numWords);
+		System.out.println(g.wordCount("is"));
+		System.out.println(g.outDegree("a"));
+		System.out.println(g.wordSeqCost(shortTest));
+		System.out.println();
+	}
+	
+	@Test
+	public void shortDijkstraTest() throws FileNotFoundException{
+		WordGraph g = new WordGraph("short_dijkstra_test");
+		System.out.println(g.generatePhrase("things", "change", 5));
 	}
 }
